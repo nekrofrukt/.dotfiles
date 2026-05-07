@@ -12,8 +12,12 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
-if [ -z "$SSH_AUTH_SOCK" ]; then
-    eval "$(ssh-agent -s)" >/dev/null
+# Start ssh-agent, from Arch wiki
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent -t 4h > "$XDG_RUNTIME_DIR/ssh-agent.env"
+fi
+if [ ! -f "$SSH_AUTH_SOCK" ]; then
+    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
 fi
 
 alias la='ls -a'
