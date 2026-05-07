@@ -67,7 +67,6 @@ def power():
     action_map: dict[str, Union[Callable, List[str]]] = {
         blt_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/bluetooth")],
         vpn_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/vpn")],
-        #pwr_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/sway-power")],
         ssh_icon: ["rofi", "-show", "ssh", "-theme", ".config/rofi/styles/ssh.rasi"],
         yay_icon: ["foot", "-e", "bash", "-lc", "btw"],
     }
