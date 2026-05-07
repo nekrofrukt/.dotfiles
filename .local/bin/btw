@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# README
+# cp to /usr/local/bin
+# Make sure it's excetutable with 'chmod +x ./<name>
+
+echo -e "\e[1mI used to use Debian btw.\e[0m"

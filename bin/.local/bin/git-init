@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# README
+# cp to /usr/local/bin
+# Make sure it's excetutable with 'chmod +x ./<name>
+
+echo -e "\e[1m----------------------\e[0m"
+echo -e "\e[1mInitializing git repo.\e[0m"
+echo -e "\e[1m----------------------\e[0m"
+
+read -p "Continue? (y/N): " confirm
+[[ "$confirm" != "y" ]] && exit 1
+
+git init
+git add .
+git commit -m "Initial commit."
+git branch -M main
+
+read -p "Repo alias: " repo
+[ -z "$repo" ] && { echo "No repo alias."; exit 1; }
+
+git remote add origin git@github.com:nekrofrukt/"$repo".git
+git push -u origin main
