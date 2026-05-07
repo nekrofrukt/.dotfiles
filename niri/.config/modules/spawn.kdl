@@ -1,0 +1,6 @@
+spawn-at-startup "waybar"
+spawn-sh-at-startup "mako --config ~/.config/mako/config"
+spawn-sh-at-startup "swaybg -i ~/src/nixos/dotfiles/wall/samori01.jpg"
+
+// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"

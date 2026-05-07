@@ -1,0 +1,23 @@
+// You can configure outputs by their name, which you can find
+// by running `niri msg outputs` while inside a niri instance.
+// The built-in laptop monitor is usually called "eDP-1".
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Outputs
+// Remember to uncomment the node by removing "/-"!
+
+output "eDP-1" {
+    // niri msg outputs
+    mode "1920x1080@120.030"
+    //mode "3840x2160@60.000"
+    scale 2
+    transform "normal"
+    position x=0 y=0
+
+}
+
+output "DP-1" {
+    mode "2560x1440@60"
+    //position x=1536 y=0
+    scale 1.0
+    transform "normal"
+}
