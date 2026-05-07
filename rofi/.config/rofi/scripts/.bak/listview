@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+#items=" SSH\n󱑞 Upgrade system"
+#output=$(echo -e $items | rofi -dmenu -normal-window)
+#if [[ "$output" == " SSH" ]]; then
+#    rofi -show ssh -normal-window
+#elif [[ "$output" == "󱑞 Upgrade system" ]]; then
+#    ghostty -e apt-system-upgrade
+#elif [[ "$output" == "󰈆 | Log out" ]]; then
+#    niri msg action quit
+#elif [[ "$output" == " | Reboot" ]]; then
+#    reboot
+#elif [[ "$output" == " | Shut down" ]]; then
+#    sudo shutdown now
+#else
+#    echo "Select excecution"
+#fi
+
+selected=$(printf " VPN (toggle nordlynx)\n SSH (connect to server)\n󱑞 APT (upgrade system)" | rofi -dmenu -normal-window)
+
+case "$selected" in
+	" VPN (toggle nordlynx)")
+        status_output="$(nordvpn status 2>/dev/null)";
+        if echo "$status_output" | grep -q "Status: Connected"; then
+            nordvpn d
+        else
+            nordvpn c
+        fi ;;
+	" SSH (connect to server)") rofi -show ssh -normal-window ;;
+	"󱑞 APT (upgrade system)") ghostty -e apt-system-upgrade ;;
+	*) exit 1 ;;
+esac

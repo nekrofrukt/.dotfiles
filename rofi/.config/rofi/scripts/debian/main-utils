@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import subprocess
+import os
+from typing import List, Union, Callable
+
+blt_icon = " BLU"
+vpn_icon = "󰦝 VPN"
+ssh_icon = " SSH"
+apt_icon = "󱑞 APT"
+#pwr_icon = " PWR"
+
+def get_uptime() -> str:
+    result = subprocess.run(["uptime"], capture_output=True, text=True).stdout.strip()
+    if " up " in result:
+        return result.split(" up ")[1].split(",")[0].strip()
+    return result
+
+
+def main_menu() -> str:
+    options: List[str] = [
+        blt_icon,
+        #pwr_icon,
+        ssh_icon,
+        vpn_icon,
+        apt_icon,
+    ]
+
+    menu = "\n".join(options)
+    uptime = get_uptime()
+
+    result = subprocess.run(
+        [
+            "rofi",
+            "-dmenu",
+            "-p", f"Uptime: {uptime}",
+            "-mesg", f"Uptime: {uptime}",
+            "-normal-window",
+            "-theme", os.path.expanduser("~/.config/rofi/styles/debian-utils.rasi"),
+        ],
+        input=menu,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    return result
+
+
+def toggle_vpn():
+    result = subprocess.run(
+        ["nordvpn", "status"],
+        capture_output=True,
+        text=True
+    )
+
+    if "Status: Connected" in result.stdout:
+        subprocess.run(["nordvpn", "d"])
+    else:
+        subprocess.run(["nordvpn", "c"])
+
+
+def run_cmd(cmd: List[str]):
+    subprocess.run(cmd)
+
+
+def power():
+    selected = main_menu()
+
+    action_map: dict[str, Union[Callable, List[str]]] = {
+        blt_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/bluetooth")],
+        vpn_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/vpn")],
+        #pwr_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/sway-power")],
+        ssh_icon: ["rofi", "-show", "ssh", "-normal-window", "-theme", ".config/rofi/styles/ssh"],
+        apt_icon: ["ghostty", "-e", "apt-system-upgrade"],
+    }
+
+    action = action_map.get(selected)
+
+    if not action:
+        return
+
+    if callable(action):
+        action()
+    else:
+        run_cmd(action)
+
+
+if __name__ == "__main__":
+    power()
