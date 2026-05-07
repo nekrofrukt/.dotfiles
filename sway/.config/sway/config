@@ -1,0 +1,23 @@
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term ghostty
+set $browser brave-browser
+set $menu rofi -show drun
+
+include /etc/sway/config-vars.d/*
+include ./modules/binds.conf
+include ./modules/exec.conf
+include ./modules/window-rules.conf
+include ./modules/layout.conf
+include ./modules/output.conf
+include ./modules/input.conf
+
+bar {
+    swaybar_command waybar
+}
+
+include /etc/sway/config.d/*
