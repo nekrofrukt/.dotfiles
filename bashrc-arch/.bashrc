@@ -12,6 +12,10 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" >/dev/null
+fi
+
 alias la='ls -a'
 alias ll='ls -la'
 alias tree='tree -a'
