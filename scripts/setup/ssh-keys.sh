@@ -20,6 +20,6 @@ chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 
 # added 7.5 2026
-eval $(ssh-agent)
+# eval $(ssh-agent)
 
-ssh-add ~/.ssh/id_ed25519
+# ssh-add ~/.ssh/id_ed25519

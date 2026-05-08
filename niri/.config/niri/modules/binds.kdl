@@ -4,7 +4,7 @@ binds {
 
     Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
     Ctrl+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -show drun"; }
-    Super+Alt+L hotkey-overlay-title="Power" { spawn "~/src/dotfiles/config/rofi/scripts/power-manager"; }
+    Super+Alt+L hotkey-overlay-title="Power" { spawn "~/.config/rofi/scripts/arch/power"; }
     Super+Alt+U hotkey-overlay-title="Utils" { spawn "~/.config/rofi/scripts/arch/main-utils"; }
     Mod+B hotkey-overlay-title="Browser" { spawn "brave"; }
 

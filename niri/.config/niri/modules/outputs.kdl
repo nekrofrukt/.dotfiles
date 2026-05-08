@@ -1,6 +1,16 @@
 // niri msg outputs
 
+// t14
 output "eDP-1" {
+    mode "1920x1080@60.049"
+    scale 1.2
+    transform "normal"
+    position x=0 y=0
+
+}
+
+// xps
+/-output "eDP-1" {
     mode "1920x1080@120.030"
     scale 2
     transform "normal"
