@@ -1,0 +1,4 @@
+/* Default theme with gruvbox blue accent */
+
+@define-color accent_fg_color #1b1b1b;
+@define-color accent_bg_color #83a598;

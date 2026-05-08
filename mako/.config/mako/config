@@ -1,0 +1,42 @@
+font=Caskaydia Mono Nerd Font 12
+#text-color=#a9b1d6
+background-color=#1a1b26
+border-size=2
+border-radius=1
+border-color=#a9b1d6
+
+[app-name=volume]
+anchor=top-right
+group-by=app-name
+format=<b>%s</b>\n%b
+width=200
+border-size=28
+border-radius=14
+border-color=#000000e6
+background-color=#ffffff
+progress-color=source #ffffffff
+outer-margin=0,0,20,0
+padding=1
+layer=overlay
+default-timeout=1000
+
+[app-name=muted]
+anchor=top-right
+group-by=app-name
+format=<b>%s</b>\n%b
+width=200
+border-size=28
+border-radius=14
+border-color=#00000080
+background-color=#ffffff
+progress-color=source #ffffff80
+outer-margin=0,0,20,0
+padding=1
+layer=overlay
+default-timeout=1000
+
+[anchor=bottom-center]
+max-visible=1
+
+[hidden=true]
+invisible=1

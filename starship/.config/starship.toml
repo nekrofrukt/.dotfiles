@@ -1,0 +1,29 @@
+format = """
+$directory$fill$git_branch$git_status$cmd_duration
+$character
+"""
+
+[username]
+format = "[$user]($style)"
+show_always = true
+
+[hostname]
+format = "@[$hostname]($style)"
+ssh_only = false
+
+[character]
+success_symbol = '[\$](green)'
+error_symbol = '[\$](red)'
+#success_symbol = "[➜](bold green)"
+#error_symbol = "[➜](bold red)"
+
+#[directory]
+#format = " [$path]($style) "
+
+[fill]
+symbol = " "
+
+[nix_shell]
+disabled = false
+format = "nix "
+style = "bold blue"
