@@ -23,8 +23,7 @@
         "custom/sep",
         "memory",
         "custom/vpn",
-        "network",
-	    "battery"
+        "network"
     ],
 
     "niri/workspaces": {

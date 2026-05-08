@@ -127,7 +127,7 @@ button:hover {
 
 #network {
     color: @bg;
-    padding: 0 8px 0 2px;
+    padding: 0 16px 0 2px;
 }
 
 #network.ethernet { color: @blu; }
