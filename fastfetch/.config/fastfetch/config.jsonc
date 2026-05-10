@@ -5,7 +5,17 @@
     "separator": " "
   },
 
-    "logo": {
+  "logo": {
+      "type": "auto",
+      "padding": {
+          "top": 1,
+          "bottom": 0,
+          "left": 1,
+          "right": 5
+      }
+  },
+
+    /*"logo": {
         "position": "top",
         "type": "file",
         "source": "~/.config/fastfetch/logo/arch01.txt",
@@ -19,9 +29,10 @@
             "1": "blue",
             "2": "green"
         }
-    },
+    },*/
 
   "modules": [
+    "break",
     {"key": "os       →", "type": "os"},
     {"key": "kernel   →", "type": "kernel"},
     {"key": "age      →", "type": "command", "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"},
@@ -30,13 +41,15 @@
     {"key": "pkg      →", "type": "packages"},
     {"key": "terminal →", "type": "terminal"},
     {"key": "shell    →", "type": "shell"},
+	{"key": "theme    → {#38}󰊠{#keys} {#37}󰊠{#keys} {#36}󰊠{#keys} {#35}󰊠{#keys} {#34}󰊠{#keys} {#33}󰊠{#keys} {#32}󰊠{#keys} {#31}󰊠{#keys}", "type": "custom"},
     "break",
     {"key": "host     →", "type": "host"},
     {"key": "cpu      →", "type": "cpu"},
+    {"key": "gpu      →", "type": "gpu"},
     {"key": "memory   →", "type": "memory"},
     {"key": "uptime   →", "type": "uptime"},
-    "break",
-	{"key": "{#35}{#keys}", "type": "colors", "symbol": "circle"}
+    "break"
+	//{"key": "{#35}{#keys}", "type": "colors", "symbol": "circle"}
 
   ]
 }
