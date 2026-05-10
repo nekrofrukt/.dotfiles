@@ -22,4 +22,4 @@ alias yrm='yay -Rs'
 alias yau='yay -Yc'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
-fetch
+#fetch

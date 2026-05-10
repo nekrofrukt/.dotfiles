@@ -17,13 +17,13 @@
   "modules": [
     "break",
     {"key": "we are all none. </3", "type": "custom"},
-    {"key": "os  →", "type": "os"},
-    {"key": "ker →", "type": "kernel"},
-    {"key": "wm  →", "type": "wm"},
-    {"key": "pkg →", "type": "packages"},
-    {"key": "trm →", "type": "terminal"},
-    {"key": "shl →", "type": "shell"},
-    //{"key": "{#36}age →", "type": "command", "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"},
+    {"key": "󰌽 →", "type": "os"},
+    {"key": "󰒓 →", "type": "kernel"},
+    {"key": "󰧨 →", "type": "wm"},
+    {"key": " →", "type": "packages"},
+    {"key": " →", "type": "terminal"},
+    {"key": " →", "type": "shell"}
+	//{"key": "hex → {#38}󰊠{#keys} {#37}󰊠{#keys} {#36}󰊠{#keys} {#35}󰊠{#keys} {#34}󰊠{#keys} {#33}󰊠{#keys} {#32}󰊠{#keys} {#31}󰊠{#keys}", "type": "custom"}
     //{"type": "colors", "symbol": "circle"}
   ]
 }
