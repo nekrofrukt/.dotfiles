@@ -2,15 +2,23 @@
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
+    // Terminal
     Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
-    Ctrl+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -show drun"; }
+
+    // Launchers
+    //Ctrl+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "pkill rofi || rofi -show drun"; }
+    Ctrl+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn-sh "pkill fuzzel || fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Power" { spawn "~/.config/rofi/scripts/arch/power"; }
     Super+Alt+U hotkey-overlay-title="Utils" { spawn "~/.config/rofi/scripts/arch/main-utils"; }
+    Super+S hotkey-overlay-title="Search" { spawn "~/.config/fuzzel/scripts/search.sh"; }
+
+    // Browser
     Mod+B hotkey-overlay-title="Browser" { spawn "brave"; }
 
+    // Waybar
     Super+Alt+K allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill waybar || exec waybar"; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0; notify-send -a volume"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }

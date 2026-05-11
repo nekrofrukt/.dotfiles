@@ -1,0 +1,5 @@
+feeds:
+  - url: https://archlinux.org/feeds/news/
+    name: Arch Linux
+  #- url: https://bubb.la/rss/nyheter
+  #  name: bubb.la
