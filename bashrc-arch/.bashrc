@@ -27,3 +27,5 @@ alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
 #fetch
+
+alias sctl-health='systemctl --user list-units --type=service --all'

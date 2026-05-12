@@ -53,6 +53,7 @@
             "firefox": "Firefox",
             "brave-browser": "Brave",
             "org.gnome.Nautilus": "Files",
+            "org.gnome.DiskUtility": "Disks",
             "obsidian": "Obsidian",
             "com.ktechpit.whatsie": "WhatSie"
         }
