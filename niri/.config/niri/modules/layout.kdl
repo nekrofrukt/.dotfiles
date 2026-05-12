@@ -8,10 +8,10 @@ animations {
 layout {
     gaps 8
     struts {
-        left 0
-        right 0
-        top 0
-        bottom 0
+        left -0
+        right -0
+        top -0
+        bottom -0
     }
 
     // never, always, on-overflow
@@ -37,7 +37,7 @@ layout {
         on
         width 2
         
-        active-color "#7fc8ff"
+        active-color "#a9b1d6"
         inactive-color "transparent"
         urgent-color "#9b0000"
     }

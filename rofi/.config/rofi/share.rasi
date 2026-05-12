@@ -5,12 +5,12 @@
   spacing: 0;
 
   urgent: #ffa07a;
-  active: #7aa2f7;
+  active: @fg;
   bg: #1a1b26;
   bg-alt: #242633;
   fg: #a9b1d6;
-  fg-alt: #3e3f46;
-  selected: #7aa2f7;
+  fg-alt: #989fc0;
+  selected: #a9b1d6;
   background-color: @bg;
   text-color: @fg;
 

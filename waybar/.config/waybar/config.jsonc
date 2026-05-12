@@ -79,13 +79,11 @@
     },
     
     "cpu": {
-        //"format": "󰍛 {usage}%",
         "format": "CPU {usage}%",
         "tooltip": false
     },
     
     "memory": {
-        //"format": " {used}Gb",
         "format": "RAM {used}G",
         "tooltip-format": "{used}/{total} GiB"
     },
@@ -100,8 +98,8 @@
         "format-ethernet": "󰈀",
         "format-wifi": "{icon}",
         "format-disconnected": "󰊠",
-        "tooltip-format": "{gwaddr} | {essid}",
-        /*"tooltip-format": "{ifname} via {gwaddr}",*/
+        "tooltip-format-wifi": "{gwaddr} | {essid}",
+        "tooltip-format-ethernet": "{gwaddr}",
         "format-icons": {
             "wifi": ["󰤟", "󰤥", "󰤨"]
         },

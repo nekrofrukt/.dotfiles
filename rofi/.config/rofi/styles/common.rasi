@@ -93,6 +93,8 @@ element-text {
 }
 
 element selected.normal {
-    background-color:            var(active);
-    text-color:                  var(bg);
+    background-color:            @fg-alt;
+    text-color:                  @bg;
+    //background-color:            var(fg);
+    //text-color:                  var(bg);
 }
