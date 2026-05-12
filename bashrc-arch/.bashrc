@@ -6,6 +6,7 @@
 [[ $- != *i* ]] && return
 
 eval "$(starship init bash)"
+eval "$(fzf --bash)"
 export PATH="$HOME/.local/bin:$PATH"
 
 alias ls='ls --color=auto'
