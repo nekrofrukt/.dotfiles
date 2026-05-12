@@ -2,7 +2,7 @@
 window-rule {
     match app-id="foot"
     background-effect {
-      blur false
+        blur true
     }
 }
 
