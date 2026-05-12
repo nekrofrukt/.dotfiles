@@ -81,12 +81,14 @@
     
     "cpu": {
         "format": "CPU {usage}%",
-        "tooltip": false
+        "tooltip": false,
+	    "on-click": "foot htop"
     },
     
     "memory": {
         "format": "RAM {used}G",
-        "tooltip-format": "{used}/{total} GiB"
+        "tooltip-format": "{used}/{total} GiB",
+	    "on-click": "foot htop"
     },
 
     "disk": {
