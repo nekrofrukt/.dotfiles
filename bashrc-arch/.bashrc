@@ -17,7 +17,6 @@ alias la='ls -a'
 alias ll='ls -la'
 alias tree='tree -a'
 
-alias yup='yay -Syu'
 alias yin='yay -S'
 alias yrm='yay -Rs'
 alias yau='yay -Yc'

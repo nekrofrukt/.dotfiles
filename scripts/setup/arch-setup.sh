@@ -12,7 +12,7 @@ echo -e "\e[1mInstalling utils.\e[0m"
 
 # BASE UTILS
 sudo pacman -Syu
-sudo pacman -S base-devel bash-completion blueman fastfetch firefox foot fzf gnome-disk-utility gnome-text-editor ttf-jetbrains-mono-nerd man-db man-pages polkit-gnome ripgrep rofi starship sushi tailscale tree vlc vlc-plugin-ffmpeg wl-clipboard yazi
+sudo pacman -S base-devel bash-completion blueman fastfetch firefox foot fzf gnome-disk-utility gnome-text-editor linux-lts linux-lts-headers man-db man-pages polkit-gnome ripgrep rofi starship sushi tailscale tree ttf-jetbrains-mono-nerd vlc vlc-plugin-ffmpeg wl-clipboard yazi
 
 echo -e "\e[1mEnabling firewall.\e[0m"
 sudo ufw enable
