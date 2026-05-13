@@ -16,7 +16,7 @@
 
   "modules": [
     "break",
-    {"key": "we are all none. </3", "type": "custom"},
+    //{"key": "we are all none. </3", "type": "custom"},
     {"key": "󰌽 →", "type": "os"},
     {"key": "󰒓 →", "type": "kernel"},
     {"key": "󰧨 →", "type": "wm"},
