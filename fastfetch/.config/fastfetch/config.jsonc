@@ -34,11 +34,12 @@
   "modules": [
     "break",
     //{"key": "we are all none. </3", "type": "custom"},
-    //"break",
+    //"break",󰇄
     {"key": "󰌽 os      →", "type": "os"},
     {"key": "󰒓 kernel  →", "type": "kernel"},
     {"key": " age     →", "type": "command", "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"},
     "break",
+    {"key": "󰧨 de      →", "type": "de"},
     {"key": "󰧨 wm      →", "type": "wm"},
     {"key": " pkg     →", "type": "packages"},
     {"key": " term    →", "type": "terminal"},
