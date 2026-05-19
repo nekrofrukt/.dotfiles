@@ -6,7 +6,10 @@ source <(fzf --zsh)
 alias la='ls -a'
 alias ll='ls -la'
 
+alias yup='brew update; brew upgrade'
+
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
+fetch
