@@ -11,6 +11,7 @@ binds {
     Super+Alt+L hotkey-overlay-title="Power" { spawn "~/.config/rofi/scripts/arch/power"; }
     Super+Alt+U hotkey-overlay-title="Utils" { spawn "~/.config/rofi/scripts/arch/main-utils"; }
     Super+S hotkey-overlay-title="Search" { spawn "~/.config/fuzzel/scripts/search.sh"; }
+    Super+N hotkey-overlay-title="Add to daily note" { spawn "~/.config/fuzzel/scripts/daily-note.sh"; }
 
     // Browser
     Mod+B hotkey-overlay-title="Browser" { spawn "brave"; }
