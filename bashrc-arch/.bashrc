@@ -8,6 +8,7 @@
 eval "$(starship init bash)"
 eval "$(fzf --bash)"
 export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="nvim"
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -23,6 +24,8 @@ alias yau='yay -Yc'
 
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
+
+alias notes='cd ~/Dropbox/obsidian/home_vault/Notes/; yazi'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
 #fetch
