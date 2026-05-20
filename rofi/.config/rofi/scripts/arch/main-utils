@@ -22,9 +22,9 @@ def main_menu() -> str:
     options: List[str] = [
         blt_icon,
         nts_icon,
-        ssh_icon,
-        vpn_icon,
         nom_icon,
+        vpn_icon,
+        ssh_icon,
         pwr_icon
     ]
 
