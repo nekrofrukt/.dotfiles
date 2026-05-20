@@ -34,7 +34,7 @@
   "modules": [
     "break",
     //{"key": "we are all none. </3", "type": "custom"},
-    {"key": " → nekrofrukt@thinkpad-t14", "type": "custom"},
+    {"key": " →", "type": "title", "format": "{#36}{#1}{user-name}@{host-name}{#}"},
     "break",
     {"key": "󰌽 OS        →", "type": "os"},
     {"key": "󰒓 Kernel    →", "type": "kernel"},
