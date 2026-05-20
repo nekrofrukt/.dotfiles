@@ -4,8 +4,8 @@ import subprocess
 import os
 from typing import List, Union, Callable
 
-note_icon = " New note"
-todo_icon = "󰄲 Add a Todo"
+note_icon = " Add note"
+todo_icon = "󰄲 Add Todo"
 read_icon = "󰂺 Notebook"
 
 def main_menu() -> str:
