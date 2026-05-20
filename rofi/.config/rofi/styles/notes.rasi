@@ -2,7 +2,7 @@
 
 listview {
     columns:      1;
-    lines:        6;
+    lines:        3;
 }
 
 element-text {

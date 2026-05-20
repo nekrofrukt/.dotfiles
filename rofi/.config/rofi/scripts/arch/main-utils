@@ -6,9 +6,10 @@ from typing import List, Union, Callable
 
 blt_icon = "󰂯 Bluetooth"
 vpn_icon = "󰦝 VPN"
+nts_icon = " Notes"
 ssh_icon = " SSH"
 nom_icon = "󰑬 RSS Feed"
-#pwr_icon = "󱑞 PWR"
+pwr_icon = " Power"
 
 def get_uptime() -> str:
     result = subprocess.run(["uptime"], capture_output=True, text=True).stdout.strip()
@@ -20,10 +21,11 @@ def get_uptime() -> str:
 def main_menu() -> str:
     options: List[str] = [
         blt_icon,
+        nts_icon,
         ssh_icon,
-        #pwr_icon,
         vpn_icon,
         nom_icon,
+        pwr_icon
     ]
 
     menu = "\n".join(options)
@@ -68,8 +70,10 @@ def power():
     action_map: dict[str, Union[Callable, List[str]]] = {
         blt_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/bluetooth")],
         vpn_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/vpn")],
+        nts_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/notes")],
         ssh_icon: ["rofi", "-show", "ssh", "-theme", ".config/rofi/styles/ssh.rasi"],
         nom_icon: ["foot", "-e", "nom"],
+        pwr_icon: [os.path.expanduser("~/.config/rofi/scripts/arch/power")],
     }
 
     action = action_map.get(selected)

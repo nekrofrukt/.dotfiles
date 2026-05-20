@@ -80,7 +80,7 @@ element {
     border:                      0px solid;
     border-radius:               4px;
     border-color:                @selected;
-    background-color:            @bg-alt;
+    background-color:            @bg;
     text-color:                  @active;
     cursor:                      pointer;
 }
@@ -93,8 +93,8 @@ element-text {
 }
 
 element selected.normal {
-    background-color:            @fg-alt;
-    text-color:                  @bg;
+    background-color:            @bg-alt;
+    text-color:                  @urgent;
     //background-color:            var(fg);
     //text-color:                  var(bg);
 }
