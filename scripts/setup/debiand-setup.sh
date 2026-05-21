@@ -10,8 +10,8 @@ read -p "Start installation? (y/N): " confirm
 
 echo -e "\e[1mConfiguring gsettings. ~~>\e[0m"
 
-gsettings set org.gnome.desktop.peripherals.keyboard delay 200
-gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
+sudo gsettings set org.gnome.desktop.peripherals.keyboard delay 200
+sudo gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
 echo -e "\e[1mKeyboard delay set to '200'.\e[0m"
 echo -e "\e[1mKeyboard repeat-interval set to '30'.\e[0m"
 echo -e "\e[1m---\e[0m"
@@ -38,12 +38,8 @@ curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --d
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
 
-# Griffo.io
-curl -sS https://debian.griffo.io/EA0F721D231FDD3A0A17B9AC7808B4DD62C41256.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/debian.griffo.io.gpg
-echo "deb https://debian.griffo.io/apt $(lsb_release -sc 2>/dev/null) main" | sudo tee /etc/apt/sources.list.d/debian.griffo.io.list
-
 # Dropbox
-wget https://linux.dropbox.com/packages/debian/dropbox_2026.01.15_amd64.deb -O /tmp/dropbox.deb
+#wget https://linux.dropbox.com/packages/debian/dropbox_2026.01.15_amd64.deb -O /tmp/dropbox.deb
 
 # Spotify
 curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
@@ -56,21 +52,29 @@ sh <(wget -qO - https://downloads.nordcdn.com/apps/linux/install.sh) -p nordvpn-
 curl -fsSL https://tailscale.com/install.sh | sh
 
 # Signal
-wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
-cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-rm signal-desktop-keyring.gpg signal-desktop.sources
+#wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
+#cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+#rm signal-desktop-keyring.gpg signal-desktop.sources
 
 # Packages
 echo -e "\e[1mInstalling packages.\e[0m"
 
 sudo apt update
-sudo apt install -y 1password brave-browser ghostty flatpak gnome-software-plugin-flatpak ripgrep ufw tree starship fastfetch nordvpn spotify-client vlc btop transmission ranger signal-desktop /tmp/dropbox.deb
+sudo apt install -y 1password brave-browser fzf ripgrep ufw tree starship fastfetch nordvpn spotify-client vlc htop transmission
 
 echo -e "\e[1mEnabling firewall.\e[0m"
 sudo ufw enable
 
-# Flatpak
-echo -e "\e[1mSetting up Flatpak repository.\e[0m"
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+# JetBrains font
+
+echo -e "\e[1mInstalling Jetbrains Mono Nerd Font.\e[0m"
+cd
+cd .local/share
+mkdir fonts
+cd fonts
+wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip
+unzip ~/.local/share/fonts/JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono
+rm ~/.local/share/fonts/JetBrainsMono.zip
+fc-cache -fv
 
 echo -e "\e[1mInstallation complete!\e[0m"
