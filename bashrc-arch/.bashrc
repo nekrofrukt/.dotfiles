@@ -15,7 +15,7 @@ alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
 alias la='ls -a'
-alias ll='ls -la'
+alias ll='ls -lah'
 alias tree='tree -a'
 
 alias yin='yay -S'
