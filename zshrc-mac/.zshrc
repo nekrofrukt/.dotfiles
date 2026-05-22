@@ -1,7 +1,6 @@
 
 eval "$(starship init zsh)"
 source <(fzf --zsh)
-#not needed?
 #eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 
 alias la='ls -a'
