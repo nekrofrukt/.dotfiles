@@ -4,7 +4,7 @@ source <(fzf --zsh)
 #eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 
 alias la='ls -a'
-alias ll='ls -la'
+alias ll='ls -lah'
 
 alias yup='brew update; brew upgrade'
 
