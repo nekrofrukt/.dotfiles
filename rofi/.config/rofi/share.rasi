@@ -8,9 +8,10 @@
   active: @fg;
   bg: #1a1b26;
   bg-alt: #242633;
+  border: #333333;
   fg: #a9b1d6;
   fg-alt: #989fc0;
-  selected: #a9b1d6;
+  selected: #f7768e;
   background-color: @bg;
   text-color: @fg;
 
@@ -103,7 +104,7 @@ window {
     padding:                     0px;
     border:                      2px solid;
     border-radius:               4px;
-    border-color:                @selected;
+    border-color:                @border;
     cursor:                      "default";
     background-color:            @bg;
 }
