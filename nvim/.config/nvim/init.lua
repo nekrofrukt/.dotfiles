@@ -1,5 +1,5 @@
--- HM file for non-Nix systems
 require("config.lazy")
+require("config.lsp")
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
