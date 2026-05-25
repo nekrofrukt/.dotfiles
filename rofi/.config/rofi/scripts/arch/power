@@ -13,7 +13,7 @@ yes_icon = ""
 no_icon = ""
 
 CONFIG_DIR = os.environ.get("XDG_CONFIG_HOME", "")
-LOCKSCREEN_WALLPAPER = f"~/.dotfiles/walls/ascii01.png"
+LOCKSCREEN_WALLPAPER = f"~/.dotfiles/walls/night01.jpg"
 
 
 def get_uptime() -> str:
