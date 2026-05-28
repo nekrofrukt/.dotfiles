@@ -4,14 +4,14 @@ import subprocess
 import os
 from typing import List, Union, Callable
 
-note_icon = " Add note"
-todo_icon = "󰄲 Add Todo"
+note_icon = " Add new note"
+#todo_icon = "󰄲 Add todo"
 read_icon = "󰂺 Notebook"
 
 def main_menu() -> str:
     options: List[str] = [
         note_icon,
-        todo_icon,
+        #todo_icon,
         read_icon,
     ]
 
@@ -39,9 +39,9 @@ def power():
     selected = main_menu()
 
     action_map: dict[str, Union[Callable, List[str]]] = {
-        note_icon: [os.path.expanduser("~/.config/fuzzel/scripts/daily-note.sh")],
+        note_icon: [os.path.expanduser("~/.config/fuzzel/scripts/note.sh")],
         read_icon: ["foot", "bash", "-ic", "notes"],
-        todo_icon: [os.path.expanduser("~/.config/fuzzel/scripts/todo.sh")],
+        #todo_icon: [os.path.expanduser("~/.config/fuzzel/scripts/todo.sh")],
     }
 
     action = action_map.get(selected)
