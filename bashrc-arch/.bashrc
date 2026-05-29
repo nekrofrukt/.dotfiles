@@ -25,6 +25,8 @@ alias yau='yay -Yc'
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
+#alias vault='opencode run --agent vault'
+
 alias notes='cd ~/Dropbox/obsidian/home_vault/Daily\ notes/; yazi'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'

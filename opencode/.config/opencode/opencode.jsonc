@@ -1,0 +1,6 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "Always ask me before writing any files, editing files, or running shell commands that could change the system. Reading/searching is always fine without asking."
+  ]
+}
