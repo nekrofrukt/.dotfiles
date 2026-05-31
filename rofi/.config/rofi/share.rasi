@@ -8,7 +8,7 @@
   active: @fg;
   bg: #1a1b26;
   bg-alt: #242633;
-  border: #333333;
+  border: #393B47;
   fg: #a9b1d6;
   fg-alt: #989fc0;
   selected: #f7768e;
