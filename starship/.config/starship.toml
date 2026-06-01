@@ -14,6 +14,8 @@ ssh_only = false
 [character]
 success_symbol = '[\$](green)'
 error_symbol = '[\$](red)'
+vimcmd_symbol = '[N](blue)'
+vimcmd_visual_symbol = '[V](yellow)'
 #success_symbol = "[➜](bold green)"
 #error_symbol = "[➜](bold red)"
 
