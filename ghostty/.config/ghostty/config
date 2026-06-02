@@ -1,4 +1,5 @@
 # Visuals
+theme = Ayu
 theme = Fotklanen
 #theme = TokyoNight
 #theme = Aizen Dark
@@ -8,7 +9,6 @@ background-opacity = 1.00
 
 # Font configuration
 font-family = JetBrainsMono Nerd Font
-#font-size = 14
 font-size = 16
       
 # Cursor configuration
