@@ -22,6 +22,7 @@
         "cpu",
         "custom/sep",
         "memory",
+        "custom/sep",
         "custom/vpn",
         "network"
     ],
@@ -114,7 +115,7 @@
     },
 
     "custom/sep": {
-        "format": "::",
+        "format": "|",
         "interval": 0,
         "tooltip": false
     },
