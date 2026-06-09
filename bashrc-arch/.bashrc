@@ -27,7 +27,7 @@ alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`
 
 #alias vault='opencode run --agent vault'
 
-alias notes='cd ~/Dropbox/obsidian/home_vault/Daily\ notes/; yazi'
+alias notes='cd ~/Dropbox/obsidian/home_vault/; yazi'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
 #fetch
