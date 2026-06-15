@@ -19,6 +19,5 @@ alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
-#fetch
-
 alias fabric='fabric-ai'
+note() { obsidian daily:append content="$*"; }
