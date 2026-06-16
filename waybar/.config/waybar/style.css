@@ -103,6 +103,12 @@ button:hover {
     padding-right: 6px;
 }
 
+#custom-hey {
+    color: @fg;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
 #pulseaudio {
     color: @fg;
     /*background-color: @bg2;
