@@ -13,20 +13,6 @@
 @define-color brblk #444b6a;
 @define-color white #ffffff;
 
-/*@define-color bg    #1a1b26;
-@define-color bg2   #333333;
-@define-color fg    #a9b1d6;
-@define-color blk   #32344a;
-@define-color red   #ed8796;
-@define-color grn   #8bd5ca;
-@define-color ylw   #eed49f;
-@define-color blu   #8aadf4;
-@define-color mag   #ad8ee6;
-@define-color cyn   #0db9d7;
-@define-color org   #f5a97f;
-@define-color brblk #444b6a;
-@define-color white #ffffff;*/
-
 * {
     font-family: "JetBrains Mono Nerd Font", monospace;
     /*font-family: "Caskaydia Mono Nerd Font", monospace;*/
