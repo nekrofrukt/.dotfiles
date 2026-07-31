@@ -1,0 +1,181 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top", // top|bottom|left|right
+    "height": 36, // to be removed for auto
+    // "width": 1280,
+    "spacing": 0, // Gaps between modules (4px)
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode",
+        "sway/window"
+    ],
+
+    "modules-center": [
+        "clock",
+        "custom/hey"
+    ],
+    
+    "modules-right": [
+        "pulseaudio",
+        "custom/sep",
+        "cpu",
+        "custom/sep",
+        "memory",
+        "custom/sep",
+        "custom/vpn",
+        "network"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false
+        /*"format": "{icon}",
+          "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5"
+            "urgent": "",
+            "focused": "",
+            "default": ""
+         }*/
+    },
+
+    "sway/window": {
+        "max-length": 40,
+        "separate-outputs": false,
+        "tooltip": false,
+        "format": "{app_id}",
+        "rewrite": {
+            "com.mitchellh.ghostty": "Ghostty",
+            "firefox": "Firefox",
+            "brave-browser": "Brave",
+            "org.gnome.Nautilus": "Files",
+            "org.gnome.DiskUtility": "Disks",
+            "obsidian": "Obsidian",
+            "com.ktechpit.whatsie": "WhatSie"
+        }
+    },
+
+    "sway/mode": {
+        "spacing": 10,
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+    "sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": false,
+        "format-icons": ["", ""],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    },
+    
+    "clock": {
+        "timezone": "Europe/Stockholm",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%H:%M}",
+        "format-alt": "[ {:%Y-%m-%d} ]"
+    },
+    
+    "cpu": {
+        "format": "CPU {usage}%",
+        "tooltip": false,
+	    "on-click": "foot htop"
+    },
+    
+    "memory": {
+        "format": "RAM {used}G",
+        "tooltip-format": "{used}/{total} GiB",
+	    "on-click": "foot htop"
+    },
+
+    "disk": {
+        "format": " DSK: {used}",
+        "interval": 60,
+        "path": "/"
+    },
+    
+    "network": {
+        "format-ethernet": "󰈀",
+        "format-wifi": "{icon}",
+        "format-disconnected": "󰊠",
+        "tooltip-format-wifi": "{gwaddr} | {essid}",
+        "tooltip-format-ethernet": "{gwaddr}",
+        "format-icons": {
+            "wifi": ["󰤟", "󰤥", "󰤨"]
+        },
+	"on-click": "nm-connection-editor"
+    },
+
+    "tray": {
+        "spacing": 10
+    },
+
+    "custom/sep": {
+        "format": "|",
+        "interval": 0,
+        "tooltip": false
+    },
+    
+    "custom/sep-pill": {
+        "format": ":",
+        "interval": 0,
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "󱄠 {volume}%",
+        "format-muted": "󰝟 {volume}%",
+        "format-bluetooth": " {volume}%",
+        "format-bluetooth-muted": "󰝟 {volume}%",
+        "format-source": "{volume}%",
+        "format-source-muted": " ",
+        "format-icons": [
+          "▪▪▪▪▪▪▪▪▪",
+          "▮▪▪▪▪▪▪▪▪",
+          "▮▮▪▪▪▪▪▪▪",
+          "▮▮▮▪▪▪▪▪▪",
+          "▮▮▮▮▪▪▪▪▪",
+          "▮▮▮▮▮▪▪▪▪",
+          "▮▮▮▮▮▮▪▪▪",
+          "▮▮▮▮▮▮▮▪▪",
+          "▮▮▮▮▮▮▮▮▪",
+          "▮▮▮▮▮▮▮▮▮"
+        ]
+        /*"on-click": "pavucontrol"*/
+    },
+
+    "custom/vpn": {
+        "exec": "~/.config/waybar/scripts/vpn.sh",
+        "interval": 5,
+        "return-type": "json"
+    },
+    
+    "custom/hey": {
+        "exec-if": "~/.config/waybar/scripts/hey.sh > /dev/null 2>&1",
+        "exec": "~/.config/waybar/scripts/hey.sh",
+        "interval": 60,
+        "return-type": "json"
+    },
+
+    "battery": {
+        "states": {
+            "good": 80,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}",
+        "format-full": "{icon}",
+        "format-charging": "󱐋",
+        "format-plugged": "",
+        "format-alt": "{time} {icon}",
+        "format-time": "{H}:{M}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    }
+}

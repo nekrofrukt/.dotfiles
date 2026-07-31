@@ -4,9 +4,10 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term ghostty
+set $term foot
 set $browser brave-browser
-set $menu rofi -show drun
+set $menu pkill fuzzel || fuzzel
+#set $menu rofi -show drun
 
 include /etc/sway/config-vars.d/*
 include ./modules/binds.conf
