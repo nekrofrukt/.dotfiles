@@ -13,7 +13,7 @@ yes_icon = ""
 no_icon = ""
 
 CONFIG_DIR = os.environ.get("XDG_CONFIG_HOME", "")
-LOCKSCREEN_WALLPAPER = f"~/src/dotfiles/wall/ascii01.png"
+LOCKSCREEN_WALLPAPER = os.path.expanduser("~/.dotfiles/walls/night01.jpg")
 
 
 def get_uptime() -> str:
@@ -93,8 +93,7 @@ def power():
         #sleep_icon: [os.path.expanduser("~/.config/qtile/scripts/sleep.sh")],
         shutdown_icon: ["sudo", "shutdown", "now"],
         reboot_icon: ["reboot"],
-        logout_icon: ["swaymsg" "exit"],
-            #["niri", "msg", "action", "quit"],
+        logout_icon: ["swaymsg", "exit"],
     }
 
     if selected == lock_icon:

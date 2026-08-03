@@ -92,8 +92,7 @@ def power():
         ],
         shutdown_icon: ["sudo", "shutdown", "now"],
         reboot_icon: ["reboot"],
-        logout_icon: ["swaymsg" "exit"],
-            #["niri", "msg", "action", "quit"],
+        logout_icon: ["niri", "msg", "action", "quit"],
     }
 
     if selected == lock_icon:

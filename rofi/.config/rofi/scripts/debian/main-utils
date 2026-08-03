@@ -4,11 +4,10 @@ import subprocess
 import os
 from typing import List, Union, Callable
 
-blt_icon = " BLU"
+blt_icon = "󰂯 Bluetooth"
 vpn_icon = "󰦝 VPN"
 ssh_icon = " SSH"
-apt_icon = "󱑞 APT"
-#pwr_icon = " PWR"
+pwr_icon = " Power"
 
 def get_uptime() -> str:
     result = subprocess.run(["uptime"], capture_output=True, text=True).stdout.strip()
@@ -20,10 +19,9 @@ def get_uptime() -> str:
 def main_menu() -> str:
     options: List[str] = [
         blt_icon,
-        #pwr_icon,
-        ssh_icon,
         vpn_icon,
-        apt_icon,
+        ssh_icon,
+        pwr_icon
     ]
 
     menu = "\n".join(options)
@@ -36,7 +34,7 @@ def main_menu() -> str:
             "-p", f"Uptime: {uptime}",
             "-mesg", f"Uptime: {uptime}",
             "-normal-window",
-            "-theme", os.path.expanduser("~/.config/rofi/styles/debian-utils.rasi"),
+            "-theme", os.path.expanduser("~/.config/rofi/styles/utils.rasi"),
         ],
         input=menu,
         capture_output=True,
@@ -67,11 +65,10 @@ def power():
     selected = main_menu()
 
     action_map: dict[str, Union[Callable, List[str]]] = {
-        blt_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/bluetooth")],
-        vpn_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/vpn")],
-        #pwr_icon: [os.path.expanduser("~/src/dotfiles/config/rofi/scripts/debian/sway-power")],
-        ssh_icon: ["rofi", "-show", "ssh", "-normal-window", "-theme", ".config/rofi/styles/ssh"],
-        apt_icon: ["ghostty", "-e", "apt-system-upgrade"],
+        blt_icon: [os.path.expanduser("~/.config/rofi/scripts/debian/bluetooth")],
+        vpn_icon: [os.path.expanduser("~/.config/rofi/scripts/debian/vpn")],
+        ssh_icon: ["rofi", "-show", "ssh", "-normal-window", "-theme", os.path.expanduser("~/.config/rofi/styles/ssh.rasi")],
+        pwr_icon: [os.path.expanduser("~/.config/rofi/scripts/sway-power")],
     }
 
     action = action_map.get(selected)

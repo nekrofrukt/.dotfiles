@@ -18,8 +18,8 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
-alias update='echo "Updating apt and homebrew repos."; echo "---"; sudo apt update; brew update'
-alias upgrade='echo "Upgrading packages."; echo "---"; sudo apt upgrade -y; brew upgrade'
+alias update='echo "Updating apt repos."; echo "---"; sudo apt update; echo " "; echo "Updating Homebrew repos."; echo "---"; brew update'
+alias upgrade='echo "Upgrading apt packages."; echo "---"; sudo apt upgrade -y; echo " "; echo "Upgrading Homebrew packages."; echo "---"; brew upgrade'
 
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
