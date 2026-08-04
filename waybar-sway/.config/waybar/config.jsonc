@@ -25,7 +25,8 @@
         "memory",
         "custom/sep",
         "custom/vpn",
-        "network"
+        "network",
+        "battery"
     ],
 
     "sway/workspaces": {
