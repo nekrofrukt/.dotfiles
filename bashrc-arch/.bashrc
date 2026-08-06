@@ -9,6 +9,7 @@ eval "$(starship init bash)"
 eval "$(fzf --bash)"
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="nvim"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
