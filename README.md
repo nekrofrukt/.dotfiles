@@ -1,5 +1,4 @@
 .dotfiles README.md
-**Powered by Fotklanen.**
 
 My dotfiles, wallpapers and nix configurations.
 Dotfiles maintained by GNU Stow.
