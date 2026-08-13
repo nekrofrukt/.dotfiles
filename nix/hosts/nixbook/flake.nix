@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs_stable.url = "github:nixos/nixpkgs?ref=nixos-26.05";
-    };
   };
 
   outputs = { self, nixpkgs, nixpkgs_stable, ... } @ inputs:
