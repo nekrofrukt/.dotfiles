@@ -1,13 +1,5 @@
 { config, pkgs, inputs, ... }:
 
-let
-  stable = import inputs.nixpkgs_stable {
-    stdenv.hostPlatform.system = pkgs.stdenv.hostPlatform.system;
-    #system = pkgs.system;
-    config.allowUnfree = true;
-  };
-in
-
 {
   imports = [
       ./hardware-configuration.nix
@@ -26,6 +18,7 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+
   hardware.enableRedistributableFirmware = true;
   boot.extraModulePackages = with config.boot.kernelPackages; [
     broadcom_sta
@@ -49,22 +42,31 @@ in
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "se";
-    variant = "nodeadkeys";
+    variant = "";
   };
 
   # Configure console keymap
   console.keyMap = "sv-latin1";
+
+  # Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Tailscale
+  services.tailscale.enable = true;
+
+  # System generations limit in boot loader
+  boot.loader.systemd-boot.configurationLimit = 5;
   
   # Enable CUPS to print documents
-  services.printing.enable = true;
+  #services.printing.enable = true;
 
   # Enable sound with pipewire
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-  };
+  #security.rtkit.enable = true;
+  #services.pipewire = {
+  #  enable = true;
+  #  alsa.enable = true;
+  #  alsa.support32Bit = true;
+  #};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nekrofrukt = {
@@ -83,7 +85,6 @@ in
   environment.systemPackages = with pkgs; [
     git
     gnugrep
-    firefox
     ripgrep
     tree
     vim
@@ -115,6 +116,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "26.05"; # Did you read the comment?
 
 }
