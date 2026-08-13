@@ -50,3 +50,21 @@
   start). `.bashrc` covers the terminal use case and needs no re-login.
 - `sway/.config/sway/modules/exec.conf:12` has `exec ssh-add ~/.ssh/id_ed25519`
   — that's the Debian/sway box's (broken, no TTY) attempt, unrelated here.
+
+## Polkit auth agent on Arch/niri (2026-08-13)
+
+- `gnome-disks` (udisks) USB flashing failed with "you don't have authority",
+  even though polkit was installed and `polkitd` was active.
+- Root cause: niri (bare Wayland compositor, no DE) ships no polkit auth agent,
+  so nothing could prompt for a password; admin actions were silently denied.
+  `wheel` is already the admin group per `50-default.rules`, so an agent alone
+  was the missing piece.
+- Fix: added
+  `spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"`
+  to `niri/.config/niri/config.kdl:7`. Applies next niri start; launch manually
+  for the current session.
+- `polkit-gnome` was already installed, just never launched. No sway changes —
+  sway on the Debian box is unaffected.
+- Alternatives deliberately NOT used: `run0 --empower` (temporary per boot;
+  `empower.rules` grants YES to all actions) and CLI `sudo dd` (works via
+  wheel, but no GUI prompting).
