@@ -11,6 +11,8 @@ in
 {
   imports = [
       ./hardware-configuration.nix
+      ../../modules/custom-configuration.nix
+      inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader
