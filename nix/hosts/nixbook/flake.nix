@@ -12,7 +12,7 @@
     system = "x86_64-linux";
   in {
     nixosConfigurations = {
-      xps = nixpkgs.lib.nixosSystem {
+      nixbook = nixpkgs.lib.nixosSystem {
         inherit system;
 
         specialArgs = { inherit nixpkgs_stable inputs; };
