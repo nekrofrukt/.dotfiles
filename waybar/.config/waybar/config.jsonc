@@ -128,10 +128,14 @@
     },
 
     "pulseaudio": {
-        "format": "󱄠 {volume}%",
+        "format": "VOL {volume}%",
+        "format-muted": "VOL 󰝟",
+        "format-bluetooth": "VOL {volume}%",
+        "format-bluetooth-muted": "VOL 󰝟",
+        /*"format": "󱄠 {volume}%",
         "format-muted": "󰝟 {volume}%",
         "format-bluetooth": " {volume}%",
-        "format-bluetooth-muted": "󰝟 {volume}%",
+        "format-bluetooth-muted": "󰝟 {volume}%",*/
         "format-source": "{volume}%",
         "format-source-muted": " ",
         "format-icons": [
