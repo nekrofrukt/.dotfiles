@@ -68,3 +68,40 @@
 - Alternatives deliberately NOT used: `run0 --empower` (temporary per boot;
   `empower.rules` grants YES to all actions) and CLI `sudo dd` (works via
   wheel, but no GUI prompting).
+
+## Arch → Void migration planning (2026-08-14)
+
+- Planning notes live in `~/Dropbox/_nekrofrukt/docs/arch-to-void.md`,
+  grounded in live Arch system inspection (pacman -Qqe, systemctl). Dotfiles
+  carry over as-is (niri/foot/mako/waybar/nvim/tmux/starship/yazi are
+  distro-agnostic). runit-from-scratch is part of the appeal.
+- 4 must-have apps: 1Password, Dropbox, NordVPN (CLI only — no GUI), Brave
+  (native xbps-src build, not Flatpak, to keep the 1Password extension
+  native-messaging manifest).
+- Package availability: most in XBPS main; `dropbox` in nonfree (wrapper, needs
+  Void's `fuse` = fuse v2); missing from XBPS: 1password, brave, nordvpn,
+  nom, obsidian, opencode, signal-desktop, ly, zram-generator.
+- Renames to remember: gst-plugin-pipewire→gstreamer1-pipewire,
+  libpulse→libpulseaudio, ttf-*-nerd fonts→nerd-fonts, noto-fonts→noto-fonts-ttf,
+  zram-generator→zramen.
+- runit service map (systemd→/etc/sv): udevd, elogind, dbus (no broker),
+  chronyd, bluetoothd, NetworkManager, tailscaled, polkitd, rtkit,
+  power-profiles-daemon. `udisks2` ships NO sv — create manually. upower is
+  D-Bus activated. No user services — pipewire/wireplumber via XDG autostart,
+  ssh-agent via shell rc / .xinitrc.
+- KEY: `deb2xbps` is gone from xtools (0.70). Convert debs with `xdeb`
+  (`xdeb-org/xdeb`, single script): deps `xbps-install -S binutils tar curl
+  xbps xz`, then `./xdeb -Sedf <file>.deb`.
+- NordVPN: deb pool live at 5.3.0 (`repo.nordvpn.com/.../nordvpn_5.3.0_amd64.deb`).
+  Needs `/etc/sv/nordvpnd/run` + `usermod -aG nordvpn`. 1Password: official
+  tarball to /opt/1Password + after-install.sh; SSH agent via app autostart +
+  `IdentityAgent` in ~/.ssh/config.
+- Brave sync is the source of truth, NOT the local profile — keep the 24-word
+  recovery code; extension data/settings won't sync and reset on fresh install.
+- Updates: Brave is the only truly manual app (1Password/Dropbox self-update).
+  Brave loop: git pull template → `./xbps-src pkg brave-bin` → install from
+  hostdir/binpkgs. OPEN ITEM: pick (a) `bup()` bashrc function, (b) manual
+  check during weekly `-Syu`, or (c) weekly cron — decide during migration.
+  Fallback if soanvig/brave-bin goes stale: convert Brave's deb via xdeb.
+- I wrote `~/.local/bin/update-local-pkgs` once; user planned to remove it.
+  Don't recreate unless asked.
