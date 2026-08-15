@@ -1,0 +1,31 @@
+
+window-rule {
+    match app-id="foot"
+    background-effect {
+        blur false
+    }
+}
+
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// block out from screen capture.
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+}
+
+// rounded corners
+/-window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
