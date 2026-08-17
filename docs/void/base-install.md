@@ -259,7 +259,7 @@ spawn-at-startup "pipewire"
 ### A.1 Install
 
 ```
-# xbps-install -S sway lightdm lightdm-mini-greeter xorg-minimal mesa-dri mesa-vulkan-intel xwayland-satellite swaybg swayidle swaylock Waybar mako nautilus sushi foot fuzzel firefox rofi polkit-gnome xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-wlr brightnessctl xdg-utils void-docs-browse dejavu-fonts-ttf xorg-fonts noto-fonts-ttf nerd-fonts noto-fonts-emoji xrandr bash-completion
+# xbps-install -S sway lightdm lightdm-mini-greeter xorg-minimal mesa-dri mesa-vulkan-intel xwayland-satellite swaybg swayidle swaylock Waybar mako nautilus sushi foot fuzzel firefox rofi polkit-gnome xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-wlr brightnessctl xdg-utils void-docs-browse dejavu-fonts-ttf xorg-fonts noto-fonts-ttf nerd-fonts noto-fonts-emoji xrandr bash-completion keychain
 ```
 
 - `niri` — the compositor.

@@ -2,6 +2,21 @@
 
 Log entries from each working session, newest on top.
 
+## TODO: Check SSH agent after reboot (2026-08-17)
+
+- Moved ssh-agent start to sway exec.conf (fixed socket at `$XDG_RUNTIME_DIR/ssh-agent.sock`)
+- bashrc-void just connects to the agent + adds key
+- Needs reboot/re-login to verify: does agent persist across foot terminals? Does it prompt only once?
+
+## Session notes (2026-08-17 ~22:00)
+
+- **M720 Bluetooth MAC fix**: MAC changed from `F0:8D` to `F0:96` in `rofi-void/.config/rofi/scripts/bluetooth` (bluetoothctl showed device as `F0:96`, script had wrong MAC)
+- **Rofi main menu restructure**: renamed `main-utils` → `main-menu`, two-level menu: Utilities (BT/VPN/SSH), Applications (Spotify/Nom), Notes, Power
+- **Rofi drun styling fix**: `theme.rasi` needed `background-color: transparent` on `element-icon`/`element-text` so selected state was visible; final style: `@bg-alt` bg + `@selected` text
+- **nom install**: installed from GitHub releases tarball (v3.3.2). README references outdated v3.0.0. No Void package exists. No auto-update mechanism
+- **bashrc-void updates**: added `~/.local/bin` to PATH, bash-completion sourcing
+- **SSH agent**: moved to sway `exec.conf` with fixed socket, bashrc connects to it
+
 ## Agent logs reorganization (2026-08-17 ~21:00)
 
 - Reorganized agent files: all dated session logs moved from `AGENTS.md` to `docs/agent-logs.md` (newest on top). `AGENTS.md` is now 4 rules only.

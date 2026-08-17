@@ -10,6 +10,9 @@ eval "$(fzf --bash)"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 
+# SSH agent via keychain
+eval $(keychain --eval --noask id_ed25519)
+
 # Tab completion
 if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
