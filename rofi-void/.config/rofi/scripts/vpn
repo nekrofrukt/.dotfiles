@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+
+import subprocess
+import os
+import json
+
+IFACE = "se-sto-wg-001"
+
+
+def run(cmd: list[str]) -> str:
+    return subprocess.run(cmd, capture_output=True, text=True).stdout.strip()
+
+
+def is_connected() -> bool:
+    output = run(["sudo", "wg", "show", IFACE])
+    return "latest handshake" in output
+
+
+def get_status() -> str:
+    if not is_connected():
+        return "Disconnected"
+    try:
+        output = subprocess.run(
+            ["curl", "-s", "--max-time", "3", "https://am.i.mullvad.net/json"],
+            capture_output=True, text=True
+        ).stdout
+        data = json.loads(output)
+        country = data.get("country", "")
+        city = data.get("city", "")
+        if city and country:
+            return f"Connected — {city}, {country}"
+        return f"Connected — {country}" if country else "Connected"
+    except Exception:
+        return "Connected"
+
+
+def connect():
+    subprocess.run(["sudo", "wg-quick", "up", IFACE])
+
+
+def disconnect():
+    subprocess.run(["sudo", "wg-quick", "down", IFACE])
+
+
+def main_menu() -> str:
+    status = get_status()
+    connected = status.startswith("Connected")
+
+    options = ["Disconnect"] if connected else ["Connect"]
+    menu = "\n".join(options)
+
+    result = subprocess.run(
+        [
+            "rofi",
+            "-dmenu",
+            "-p", "VPN",
+            "-mesg", f"WireGuard: {status}",
+            "-theme", os.path.expanduser("~/.config/rofi/styles/vpn.rasi"),
+        ],
+        input=menu,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    return result
+
+
+def main():
+    selected = main_menu()
+
+    if not selected:
+        return
+
+    if selected == "Connect":
+        connect()
+    elif selected == "Disconnect":
+        disconnect()
+
+
+if __name__ == "__main__":
+    main()

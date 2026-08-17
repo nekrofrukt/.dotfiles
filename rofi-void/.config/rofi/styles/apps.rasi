@@ -1,0 +1,10 @@
+@import "common"
+
+listview {
+    columns:      1;
+    lines:        2;
+}
+
+element-text {
+    font: "JetBrains Mono Nerd Font Bold 12";
+}

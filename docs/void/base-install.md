@@ -126,11 +126,32 @@ logger "PowerButton pressed: $2, shutting down..."
 loginctl poweroff
 ```
 
-The lid and sleep handlers (they call `zzz`) stay as they are.
+The lid handler is the one thing we deliberately **don't** keep stock — the default `close)` case calls `zzz` unconditionally, so the laptop suspends even when docked to an external monitor. Fix it in step 2.2.1.
 
 > Default behaviour: the power button **powers the machine off**, not suspends (the Void acpid default is `shutdown -P now`). This step keeps that behaviour but routes it through elogind for a clean quit. To make the power button suspend instead, use `loginctl suspend` on that line and drop the log message.
 
 **Check:** `sv status acpid` reports `run`; restart it if you changed anything: `# sv restart acpid`.
+
+### 2.2.1 Don't suspend on lid close when an external display is connected
+
+The stock `button/lid` `close)` case in `/etc/acpi/handler.sh` calls `zzz` unconditionally. With elogind ignoring the lid (2.1), acpid is the only thing reacting to it — so a lid close suspends even when the laptop is docked. Make the handler only suspend when no external display is connected (the equivalent of logind's "docked" handling on Arch):
+
+```sh
+close)
+    # keep running if an external display is connected
+    for c in /sys/class/drm/card*-*/status; do
+        case "$c" in
+            *eDP-*|*LVDS-*|*DSI-*) continue ;;
+        esac
+        [ "$(cat "$c" 2>/dev/null)" = "connected" ] && exit 0
+    done
+    # suspend-to-ram
+    logger "LID closed, suspending..."
+    zzz
+    ;;
+```
+
+> `*eDP-*|*LVDS-*|*DSI-*` are the internal panels; anything else that's `connected` counts as external. Closing the lid with the HDMI monitor connected keeps the session running (sway disables eDP-1, the external stays on); unplugged, it suspends. See `docs/logs/niri-lid.md` for the original debugging of this exact issue.
 
 ### 2.3 The shutdown rule
 
@@ -238,7 +259,7 @@ spawn-at-startup "pipewire"
 ### A.1 Install
 
 ```
-# xbps-install -S niri lightdm lightdm-mini-greeter xwayland-satellite swaybg swayidle swaylock Waybar mako nautilus sushi foot fuzzel firefox rofi polkit-gnome xdg-desktop-portal xdg-desktop-portal-gnome brightnessctl xdg-utils void-docs-browse
+# xbps-install -S sway lightdm lightdm-mini-greeter xorg-minimal mesa-dri mesa-vulkan-intel xwayland-satellite swaybg swayidle swaylock Waybar mako nautilus sushi foot fuzzel firefox rofi polkit-gnome xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-wlr brightnessctl xdg-utils void-docs-browse dejavu-fonts-ttf xorg-fonts noto-fonts-ttf nerd-fonts noto-fonts-emoji xrandr bash-completion
 ```
 
 - `niri` — the compositor.
@@ -295,8 +316,35 @@ spawn-at-startup "pipewire"
 
 ```
 # xbps-install -S wireguard-tools
-# wg-quick up mullvad   # after placing your config in /etc/wireguard/
 ```
+
+After placing your config in `/etc/wireguard/` and setting permissions:
+
+```
+# chown root:root /etc/wireguard/*.conf && chmod 600 /etc/wireguard/*.conf
+```
+
+Enable passwordless `wg-quick` for the rofi/waybar toggle (drop-in sudoers rule):
+
+```
+# visudo -f /etc/sudoers.d/z-wg-quick
+```
+
+```
+nekrofrukt ALL=(root) NOPASSWD: /usr/bin/wg-quick up <interface>, /usr/bin/wg-quick down <interface>, /usr/bin/wg show <interface>
+```
+
+Replace `<interface>` with your config filename (e.g. `se-sto-wg-001`).
+
+> **Void quirks**:
+> - The filename **must sort after `wheel`** alphabetically (e.g. `z-wg-quick`).
+>   `@includedir` processes files in lexical order, and the **last matching rule
+>   wins** in sudo — if your file sorts before `wheel`, the `%wheel ALL=(ALL:ALL) ALL`
+>   rule overrides your NOPASSWD.
+> - The stock `/etc/sudoers.d/wheel` ships with wrong permissions — sudo silently
+>   skips the whole directory. Fix: `# chmod 0440 /etc/sudoers.d/wheel`
+
+Verify: `sudo -n wg show <interface>` should work without a password.
 
 The waybar `vpn.sh` and rofi VPN scripts are already rewritten for `wg`/`mullvad status`.
 

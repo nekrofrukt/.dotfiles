@@ -1,8 +1,8 @@
 feeds:
-  - url: https://archlinux.org/feeds/news/
-    name: Arch News
-  - url: https://security.archlinux.org/advisory/feed.atom
-    name: Arch Advisory
+  #- url: https://archlinux.org/feeds/news/
+  #  name: Arch News
+  #- url: https://security.archlinux.org/advisory/feed.atom
+  #  name: Arch Advisory
   #- url: https://bubb.la/rss/nyheter
   #  name: bubb.la
   - url: http://svt.se/nyheter/regionalt/hallandsnytt/rss.xml

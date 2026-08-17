@@ -25,8 +25,7 @@
         "memory",
         "custom/sep",
         "custom/vpn",
-        "network",
-        "battery"
+        "network"
     ],
 
     "sway/workspaces": {
@@ -55,6 +54,7 @@
             "com.mitchellh.ghostty": "Ghostty",
             "firefox": "Firefox",
             "brave-browser": "Brave",
+            "brave-origin": "Brave",
             "org.gnome.Nautilus": "Files",
             "org.gnome.DiskUtility": "Disks",
             "obsidian": "Obsidian",
@@ -129,10 +129,10 @@
     },
 
     "pulseaudio": {
-        "format": "󱄠 {volume}%",
-        "format-muted": "󰝟 {volume}%",
-        "format-bluetooth": " {volume}%",
-        "format-bluetooth-muted": "󰝟 {volume}%",
+        "format": "VOL {volume}%",
+        "format-muted": "VOL 󰝟",
+        "format-bluetooth": "VOL {volume}%",
+        "format-bluetooth-muted": "VOL 󰝟",
         "format-source": "{volume}%",
         "format-source-muted": " ",
         "format-icons": [
@@ -152,6 +152,7 @@
 
     "custom/vpn": {
         "exec": "~/.config/waybar/scripts/vpn.sh",
+        "on-click": "~/.config/waybar/scripts/vpn.sh --toggle",
         "interval": 5,
         "return-type": "json"
     },

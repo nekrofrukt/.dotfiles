@@ -40,7 +40,7 @@
     {"key": "󰒓 Kernel    →", "type": "kernel"},
     {"key": " Age       →", "type": "command", "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"},
     "break",
-    {"key": "󰇄 DE        →", "type": "de"},
+    //{"key": "󰇄 DE        →", "type": "de"},
     {"key": "󰧨 WM        →", "type": "wm"},
     {"key": " PKG       →", "type": "packages"},
     {"key": " Terminal  →", "type": "terminal"},

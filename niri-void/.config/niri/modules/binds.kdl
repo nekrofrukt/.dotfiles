@@ -9,7 +9,7 @@ binds {
     //Ctrl+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "pkill rofi || rofi -show drun"; }
     Ctrl+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn-sh "pkill fuzzel || fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Power" { spawn "~/.config/rofi/scripts/arch/power"; }
-    Super+Alt+U hotkey-overlay-title="Utils" { spawn "~/.config/rofi/scripts/arch/main-utils"; }
+    Super+Alt+U hotkey-overlay-title="Menu" { spawn "~/.config/rofi/scripts/main-menu"; }
     Super+S hotkey-overlay-title="Search" { spawn "~/.config/fuzzel/scripts/search.sh"; }
     Super+N hotkey-overlay-title="Add a note" { spawn "~/.config/fuzzel/scripts/note.sh"; }
 

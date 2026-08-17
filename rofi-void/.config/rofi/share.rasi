@@ -1,0 +1,110 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  urgent: #ffa07a;
+  active: @fg;
+  bg: #1a1b26;
+  bg-alt: #242633;
+  border: #393B47;
+  fg: #a9b1d6;
+  fg-alt: #989fc0;
+  selected: #f7768e;
+  background-color: @bg;
+  text-color: @fg;
+
+  /*urgent: #ffa07a;
+  active: #ff6b8a;
+  bg: #1a1426;
+  bg-alt: #2d2438;
+  fg: #9d8ba8;
+  fg-alt: #e8b4c8;
+  selected: @fg-alt;
+  background-color: @bg;
+  text-color: @fg;*/
+}
+
+configuration {
+  font: "Caskaydia Mono Nerd Font 12";
+  terminal: "foot";
+
+  combi {
+    display-name: "󰍜";
+  }
+
+  drun {
+    display-name: "drun:";
+  }
+
+  dmenu {
+    display-name: "dmenu:";
+  }
+
+  ssh {
+    display-name: "";
+  }
+
+  run {
+    display-name: "";
+  }
+
+  window {
+    display-name: "";
+  }
+
+  microphone {
+    display-name: "󰍬";
+  }
+
+  timeout {
+    delay: 20;
+    action: "kb-cancel";
+  }
+
+  filebrowser {
+    display-name: "";
+  }
+
+  display-drun: "Application:";
+  display-window: "Window:";
+  display-filebrowser: "Files:";
+  case-sensitive: false;
+  sort: true;
+  sorting-method: "fzf";
+  modi: [
+    "run",
+    "drun",
+    "window",
+    "filebrowser",
+    "ssh"
+    //"microphone",
+    //"performance-profile",
+    //"av-recorder"
+  ];
+  show-icons: true;
+  terminal: "foot";
+}
+
+window {
+    /* properties for window widget */
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       400px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    /* properties for all widgets */
+    //font:                        "Caskaydia Mono Nerd Font 12";
+    font:                        "JetBrains Mono Nerd Font 12";
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      2px solid;
+    border-radius:               4px;
+    border-color:                @border;
+    cursor:                      "default";
+    background-color:            @bg;
+}
