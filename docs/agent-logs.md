@@ -2,6 +2,15 @@
 
 Log entries from each working session, newest on top.
 
+## SSH agent fix: keychain (2026-08-17)
+
+- Moved from manual ssh-agent (sway exec + bashrc socket connect + ssh-add) to `keychain`
+- Install: `xbps-install keychain`
+- bashrc: `eval $(keychain -q --eval --noask id_ed25519)` — replaces `SSH_AUTH_SOCK` export + `ssh-add`
+- sway exec.conf: removed `exec ssh-agent -a ...` line — keychain manages the agent
+- `-q` flag suppresses per-terminal output (default keychain prints "Existing ssh-agent (pidfile): ..." every time)
+- Updated `docs/void/guides/ssh-agent.md` to reflect new solution
+
 ## TODO: Check SSH agent after reboot (2026-08-17)
 
 - Moved ssh-agent start to sway exec.conf (fixed socket at `$XDG_RUNTIME_DIR/ssh-agent.sock`)

@@ -4,39 +4,33 @@ Problem: ssh-agent started from bashrc dies when terminal closes, causing passph
 
 ## Solution
 
-Start the agent from sway's `exec.conf` with a fixed socket path. Bashrc connects to it.
+Use `keychain` to manage the agent. It starts ssh-agent if needed, caches the passphrase to a file, and reuses it across terminals.
 
-### 1. sway exec.conf
+### 1. Install keychain
 
-```sway
-exec ssh-agent -a "$XDG_RUNTIME_DIR/ssh-agent.sock"
+```bash
+sudo xbps-install keychain
 ```
-
-This starts the agent when sway launches and keeps it alive for the entire session.
 
 ### 2. bashrc-void/.bashrc
 
 ```bash
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.sock"
-ssh-add ~/.ssh/id_ed25519 2>/dev/null
+# SSH agent via keychain
+eval $(keychain -q --eval --noask id_ed25519)
 ```
 
-Each terminal sets the socket path and adds the key. If the key is already loaded, `ssh-add` is a no-op (no prompt).
+`-q` suppresses per-terminal output. `--noask` prevents prompting if the key is already loaded.
 
-## Why not bashrc-only?
+### 3. sway exec.conf
 
-Starting `ssh-agent` from bashrc means:
-- Each terminal may spawn its own agent (orphaned processes)
-- Agent dies when last terminal closes (SIGHUP)
-- Passphrase prompt on every new terminal
+Remove the old `exec ssh-agent` line — keychain manages the agent lifecycle.
 
-Starting from sway ties the agent lifecycle to the session — one agent, all terminals share it.
+## Why keychain over manual ssh-agent?
 
-## Why not systemd user service?
-
-Void uses runit, not systemd. No `systemctl --user`. The sway exec approach is the idiomatic solution for Void.
+- **Manual (old way):** sway starts agent, bashrc connects to socket + runs `ssh-add`. Fragile: agent can die on sway reload, `ssh-add` prompts on every new terminal if key isn't loaded.
+- **Keychain:** manages agent itself, caches passphrase to `~/.keychain/`, survives across terminals and sway reloads. One passphrase prompt per boot.
 
 ## Key files
 
-- `sway-void/.config/sway/modules/exec.conf`
 - `bashrc-void/.bashrc`
+- `sway-void/.config/sway/modules/exec.conf` (no ssh-agent line)
