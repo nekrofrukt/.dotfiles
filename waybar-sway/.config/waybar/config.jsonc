@@ -57,7 +57,7 @@
             "brave-origin": "Brave",
             "org.gnome.Nautilus": "Files",
             "org.gnome.DiskUtility": "Disks",
-            "obsidian": "Obsidian",
+            "md.obsidian.Obsidian": "Obsidian",
             "com.ktechpit.whatsie": "WhatSie"
         }
     },

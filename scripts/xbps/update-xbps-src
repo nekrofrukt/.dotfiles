@@ -1,0 +1,81 @@
+#!/bin/bash
+set -euo pipefail
+
+VOIDPACKAGES="$HOME/src/void-packages"
+CONFIG="$HOME/.dotfiles/scripts/xbps/packages.conf"
+
+if [ ! -f "$CONFIG" ]; then
+    echo "Config not found: $CONFIG"
+    exit 1
+fi
+
+# Check for updates
+UPDATES=()
+while IFS='|' read -r pkgname source_type source_args; do
+    [[ "$pkgname" =~ ^#.*$ || -z "$pkgname" ]] && continue
+
+    template="$VOIDPACKAGES/srcpkgs/$pkgname/template"
+    if [ ! -f "$template" ]; then
+        echo "Template not found: $pkgname"
+        continue
+    fi
+
+    current=$(grep '^version=' "$template" | cut -d= -f2)
+
+    case "$source_type" in
+        github)
+            latest=$(curl -fsSI "https://github.com/$source_args/releases/latest" \
+                | tr -d '\r' \
+                | grep -i '^location:' \
+                | rev | cut -d/ -f1 | rev)
+            ;;
+        *)
+            echo "Unknown source type: $source_type"
+            continue
+            ;;
+    esac
+
+    latest_nov="${latest#v}"
+
+    if [ "$latest_nov" != "$current" ]; then
+        echo "$pkgname: $current -> $latest"
+        UPDATES+=("$pkgname|$source_type|$source_args|$current|$latest")
+    fi
+done < "$CONFIG"
+
+if [ ${#UPDATES[@]} -eq 0 ]; then
+    echo "All packages are up to date."
+    exit 0
+fi
+
+# Ask to update
+read -rp "Update all packages? Y/n " answer
+if [[ ! "$answer" =~ ^[Yy]?$ ]]; then
+    echo "Aborted."
+    exit 0
+fi
+
+# Apply updates
+for update in "${UPDATES[@]}"; do
+    IFS='|' read -r pkgname source_type source_args current latest <<< "$update"
+    template="$VOIDPACKAGES/srcpkgs/$pkgname/template"
+
+    echo ""
+    echo "=== Updating $pkgname: $current -> $latest ==="
+
+    case "$source_type" in
+        github)
+            version="${latest#v}"
+            checksum=$(curl -fSL "https://github.com/$source_args/releases/download/$latest/$pkgname-$version.tar.gz" 2>/dev/null | sha256sum | awk '{print $1}')
+            sed -i "s/^version=.*/version=$version/" "$template"
+            sed -i "s/^checksum=.*/checksum=$checksum/" "$template"
+            ;;
+    esac
+
+    cd "$VOIDPACKAGES"
+    ./xbps-src pkg "$pkgname"
+done
+
+echo ""
+echo "Done. Install/update with:"
+echo "  sudo xbps-install --repository=$VOIDPACKAGES/hostdir/binpkgs <package>"
