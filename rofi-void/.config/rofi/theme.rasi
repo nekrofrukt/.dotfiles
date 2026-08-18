@@ -58,11 +58,11 @@ element selected.normal {
 
 element-text selected,
 element-text selected.normal {
-  background-color: @bg-alt;
+  background-color: @bg;
   text-color: @selected;
 }
 
 element-icon selected,
 element-icon selected.normal {
-  background-color: @bg-alt;
+  background-color: @bg;
 }

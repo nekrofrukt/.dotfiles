@@ -26,12 +26,12 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
-alias xup='sudo vuru update'
-alias xin='sudo xbps-install'
-alias xse='xbps-query -Rs'
-alias xrm='sudo xbps-remove'
-alias xau='sudo xbps-remove -o'
-alias xup-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
+alias lnk='sudo ln -s'
+
+alias xi='sudo xbps-install'
+alias xq='xbps-query'
+alias xr='sudo xbps-remove'
+alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'

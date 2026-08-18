@@ -9,9 +9,21 @@ if [ ! -f "$CONFIG" ]; then
     exit 1
 fi
 
+check_running() {
+    IFS=',' read -ra names <<< "$1"
+    for name in "${names[@]}"; do
+        name=$(echo "$name" | xargs)  # trim whitespace
+        if pgrep -x "$name" >/dev/null 2>&1; then
+            echo "  ERROR: $name is running. Please close it first."
+            return 1
+        fi
+    done
+    return 0
+}
+
 # Check for updates
 UPDATES=()
-while IFS='|' read -r pkgname source_type source_args; do
+while IFS='|' read -r pkgname source_type source_args distfile_pattern running_check; do
     [[ "$pkgname" =~ ^#.*$ || -z "$pkgname" ]] && continue
 
     template="$VOIDPACKAGES/srcpkgs/$pkgname/template"
@@ -38,8 +50,9 @@ while IFS='|' read -r pkgname source_type source_args; do
     latest_nov="${latest#v}"
 
     if [ "$latest_nov" != "$current" ]; then
+        [ -z "$distfile_pattern" ] && distfile_pattern="${pkgname}-{version}.tar.gz"
         echo "$pkgname: $current -> $latest"
-        UPDATES+=("$pkgname|$source_type|$source_args|$current|$latest")
+        UPDATES+=("$pkgname|$source_type|$source_args|$current|$latest|$distfile_pattern|${running_check:-}")
     fi
 done < "$CONFIG"
 
@@ -57,25 +70,55 @@ fi
 
 # Apply updates
 for update in "${UPDATES[@]}"; do
-    IFS='|' read -r pkgname source_type source_args current latest <<< "$update"
+    IFS='|' read -r pkgname source_type source_args current latest distfile_pattern running_check <<< "$update"
     template="$VOIDPACKAGES/srcpkgs/$pkgname/template"
 
     echo ""
     echo "=== Updating $pkgname: $current -> $latest ==="
 
+    # Check if any related processes are running
+    if [ -n "$running_check" ]; then
+        if ! check_running "$running_check"; then
+            echo "  Skipping $pkgname. Re-run after closing the process."
+            continue
+        fi
+    fi
+
     case "$source_type" in
         github)
             version="${latest#v}"
-            checksum=$(curl -fSL "https://github.com/$source_args/releases/download/$latest/$pkgname-$version.tar.gz" 2>/dev/null | sha256sum | awk '{print $1}')
+            distfile="${distfile_pattern//\{version\}/$version}"
+            url="https://github.com/$source_args/releases/download/$latest/$distfile"
+
+            echo "  Downloading $distfile..."
+            tmpfile=$(mktemp)
+            curl -fSL "$url" -o "$tmpfile" --progress-bar 2>&1
+            checksum=$(sha256sum "$tmpfile" | awk '{print $1}')
+            rm "$tmpfile"
+            echo "  Checksum: ${checksum:0:16}..."
+
             sed -i "s/^version=.*/version=$version/" "$template"
             sed -i "s/^checksum=.*/checksum=$checksum/" "$template"
+            echo "  Template updated."
             ;;
     esac
 
+    echo "  Building..."
     cd "$VOIDPACKAGES"
-    ./xbps-src pkg "$pkgname"
-done
+    ./xbps-src pkg "$pkgname" || { echo "  Build failed!"; continue; }
 
-echo ""
-echo "Done. Install/update with:"
-echo "  sudo xbps-install --repository=$VOIDPACKAGES/hostdir/binpkgs <package>"
+    # Find where the built package landed
+    repo_path=$(find "$VOIDPACKAGES/hostdir/binpkgs" -name "${pkgname}-${version}_*.xbps" -printf '%h\n' 2>/dev/null)
+    if [ -z "$repo_path" ]; then
+        echo "  Package not found after build. Install manually."
+        continue
+    fi
+
+    echo "  Installing..."
+    if sudo xbps-install --repository="$repo_path" "$pkgname" 2>&1; then
+        echo "  Done: ${pkgname}-${version}"
+    else
+        echo "  Install failed. Run manually:"
+        echo "    sudo xbps-install --repository=$repo_path $pkgname"
+    fi
+done

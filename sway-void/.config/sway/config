@@ -6,8 +6,8 @@ set $up k
 set $right l
 set $term foot
 set $browser brave-origin
-set $menu pkill fuzzel || fuzzel
-#set $menu rofi -show drun
+#set $menu pkill fuzzel || fuzzel
+set $menu rofi -show drun
 
 include ./modules/binds.conf
 include ./modules/exec.conf

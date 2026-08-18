@@ -2,6 +2,20 @@
 
 Log entries from each working session, newest on top.
 
+## Brave Origin xbps-src + mako/BT fix (2026-08-18)
+
+- **Brave Origin**: replaced VUP install with xbps-src build. Created template at `~/src/void-packages/srcpkgs/brave-origin/` following the vivaldi pattern — downloads `brave-origin-{version}-linux-amd64.zip` from `github.com/brave/brave-browser/releases`, installs to `/opt/brave-origin/`, wrapper script in `files/brave-origin` adds Wayland flags. Key gotchas:
+  - Zip extracts flat (no subdirectory), so `vinstall` icon loop must run before `vcopy . opt/brave-origin` and reference icons directly.
+  - `vinstall FILE 0755 usr/bin/brave-origin` creates a directory — use `vinstall FILE 0755 usr/bin` (3-arg form installs to `destdir/$(basename file)`).
+  - The actual binary is `brave` (300MB ELF), not `brave-origin` (shell wrapper). `vcopy . opt/brave-origin` copies both.
+- **Update script** (`~/.dotfiles/scripts/void/xbps/update-xbps-src`): fully rewritten with:
+  - `packages.conf` now has5 fields: `pkgname|source_type|source_args|distfile_suffix|running_check`
+  - Download progress bar (curl `--progress-bar` to temp file, then sha256sum) instead of silent pipe.
+  - `check_running()` function: checks comma-separated process names via `pgrep -x` before each update. Aborts with error if any are running.
+  - Auto-install after build: finds `.xbps` in `hostdir/binpkgs/` (handles main vs nonfree), runs `sudo xbps-install`, falls back to printing manual command on failure.
+  - Bug fix: nested `${}` in `${distfile_pattern:-${pkgname}-{version}.tar.gz}` caused bash brace-matching issues, producing broken URLs like `.zip.tar.gz}`. Fixed by resolving the default before storing in the UPDATES array.
+- **Mako/BT**: `blueman-applet` was installed but not auto-started — sway has no XDG autostart handler. Added `exec blueman-applet` to `sway-void/.config/sway/modules/exec.conf`. Bluetooth connect/disconnect notifications now work again.
+
 ## LTS vmlinuz missing from GRUB menu (2026-08-18)
 
 - linux-lts (meta-package) and linux6.12 were installed in earlier session, but LTS kernel didn't appear in GRUB advanced boot menu.
