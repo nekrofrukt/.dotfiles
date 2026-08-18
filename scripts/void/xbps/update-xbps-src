@@ -2,7 +2,7 @@
 set -euo pipefail
 
 VOIDPACKAGES="$HOME/src/void-packages"
-CONFIG="$HOME/.dotfiles/scripts/xbps/packages.conf"
+CONFIG="$HOME/.dotfiles/scripts/void/xbps/packages.conf"
 
 if [ ! -f "$CONFIG" ]; then
     echo "Config not found: $CONFIG"

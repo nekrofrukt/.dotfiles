@@ -31,7 +31,7 @@ alias xin='sudo xbps-install'
 alias xse='xbps-query -Rs'
 alias xrm='sudo xbps-remove'
 alias xau='sudo xbps-remove -o'
-alias xu-src='~/.dotfiles/scripts/xbps/update-xbps-src'
+alias xup-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'

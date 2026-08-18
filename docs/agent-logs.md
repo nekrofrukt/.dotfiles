@@ -2,6 +2,70 @@
 
 Log entries from each working session, newest on top.
 
+## LTS vmlinuz missing from GRUB menu (2026-08-18)
+
+- linux-lts (meta-package) and linux6.12 were installed in earlier session, but LTS kernel didn't appear in GRUB advanced boot menu.
+- Investigation: `vmlinuz-6.12.103_1` and `config-6.12.103_1` were **missing from `/boot`** despite `linux6.12` showing `[*]` installed status. Only `initramfs-6.12.103_1.img` existed. No file named `vmlinuz-6.12*` found anywhere on disk.
+- Root cause: partial extraction during original package install — initramfs generated (post-install hook), but vmlinuz/config never landed in `/boot`. XBPS database wasn't aware.
+- Key difference: `linux-lts` is a 0B meta-package depending on `linux6.12`. Force-reinstalling `linux-lts` only reinstalled the meta-package, not the actual kernel. Had to `sudo xbps-install -f linux6.12` directly.
+- Fix: `xbps-install -f linux6.12` restored vmlinuz, regenerated initramfs via dracut, and `grub-mkconfig -o /boot/grub/grub.cfg` added both kernels to the boot menu.
+- Note: `linux6.12` has `preserve: yes` so it won't auto-remove when orphaned.
+
+## Kernel cleanup + LTS install (2026-08-18)
+
+- User noticed 3 kernel images in `/boot`: `6.12.103_1`, `6.12.11_1`, `6.18.44_1` (running).
+- Only `linux6.18-6.18.44_1` package is installed. The two 6.12 entries are orphaned boot files (no matching xbps packages, no initramfs for 6.12.103, config files only).
+- Plan: install `linux-lts` (6.12 LTS) + `linux-lts-headers`, remove orphaned `/boot` files, `update-grub`, reboot to test LTS from GRUB.
+- `sudo xbps-remove linux6.12-*` confirmed no packages to remove — orphaned files are just left in `/boot`.
+- `linux-lts` available in Void repos (`xbps-query -Rs linux-lts`).
+
+## LightDM mini-greeter config + preview (2026-08-18)
+
+- Created `src/oc-temp/lightdm-preview.html` — static HTML mimicking the actual GTK rendering based on lightdm-mini-greeter source (`ui.c`). Learned that:
+  - Layout is a 2-column GtkGrid (label left, input right), not stacked centered
+  - `layout-space` = main window border-width (GTK container), not inner padding
+  - `border-width` is shared between `#main` and `#password`, but `password-border-width` overrides for the input
+  - No transparency option exists — blending into background is the only way to hide the main window
+  - `password-character` accepts any unicode character (e.g. `●` for big dot)
+  - Nerd Font icons work in `password-label-text` via font fallback
+- Config changes applied to `/etc/lightdm/lightdm-mini-greeter.conf`:
+  - `window-color` → `#1B1D1E` (matches background, no visible box)
+  - `border-width` → `0px` (main window border removed)
+  - `border-color` → `#F8F8F8`
+  - `text-color` → `#F8F8F8` (lock icon white)
+  - `password-border-color` → `#F8F8F8` (input border white)
+  - `password-border-width` → `2px` (kept for input field)
+  - `password-label-text` → `󰌾` (Nerd Font lock icon, U+F033E)
+  - `password-alignment` → `center`
+- User will reboot to test; also asked about `password-character` for bigger dot and icon scaling with font-size.
+
+## Vault analysis of codex/linux/void (2026-08-18)
+
+- Read all 5 log files from 2026-08-15 to catch up (PipeWire/waybar, VPN, elogind, lid handling).
+- Ran full analysis of `~/Dropbox/obsidian/home_vault/codex/linux/void/` (7 files: 1 main handbook + 6 manuals).
+- Key findings:
+  - **Sway/niri identity crisis**: Part 2 of `void-base-install.md` says "Sway" and installs sway packages, but elogind-lidrules.md and the trial logs all reference niri. Never reconciled after switching compositors.
+  - **Broken wikilink**: `elogind-lidrules.md` references `docs/logs/niri-lid.md` which doesn't exist in the vault.
+  - **Wrong service in verify check**: `void-base-install.md:203` says `greetd`, should be `lightdm`.
+  - **Part 3 TODOs**: Missing Transmission, Dropbox, Htop, Disks, Yazi.
+  - **Part 4**: Stub only (xbps-src, ssh-agent mentioned, not written).
+  - **No troubleshooting section** anywhere.
+  - WireGuard/Mullvad docs are the most polished (~95%).
+- Cleaned up `elogind-lidrules.md`: removed debug log below the `opencode q:` marker (lines 85–155). Content was duplicate of §3.1 (same fix code) + historical context (lid-monitor script tried and removed, proc/acpi facts). User confirmed removal.
+- Still open: PipeWire/waybar remaining steps, sway/niri reconciliation, broken wikilink, greetd→lightdm fix, Part 3/4 completion.
+
+## Opencode config cleanup + vault agent (2026-08-18)
+
+- Removed unused files from `~/.dotfiles/opencode/.config/opencode/`: `package.json`, `package-lock.json`, `node_modules/` (leftover `@opencode-ai/plugin` dependency with no plugin code), `.gitignore`. Only `opencode.jsonc` and `agents/vault.md` remain.
+- Decided on vault documentation structure: tags for agent discovery, `[[wikilinks]]` for user navigation, folders are loose (doesn't affect agent much).
+- User moved Void docs from `~/.dotfiles/docs/void/` into Obsidian vault at `~/Dropbox/obsidian/home_vault/codex/linux/void/`. Structure: one main overview (`void-base-install.md`) + focused guides under `manuals/`.
+- Introduced `ocq` convention: user marks questions/directives for opencode/vault agent in documents.
+- Rewrote vault agent (`agents/vault.md`):
+  - `mode: all` → `mode: subagent` (invoked by build agent via Task, no manual switching)
+  - Updated directory list to match actual vault structure
+  - Added explicit search strategy: grep tags → read files → follow `[[wikilinks]]` → check `ocq` markers
+- User will restart opencode for agent changes to take effect.
+
 ## SSH agent fix: keychain (2026-08-17)
 
 - Moved from manual ssh-agent (sway exec + bashrc socket connect + ssh-add) to `keychain`
