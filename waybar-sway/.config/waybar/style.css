@@ -1,12 +1,7 @@
-/*@define-color bg    #1a1b26;*/
 @define-color bg    #1e1e2e;
-@define-color bg2   #333333;
-/*@define-color fg    #a9b1d6;*/
 @define-color fg    #cdd6f4;
-@define-color fg2   #87afb1;
 @define-color blk   #32344a;
 @define-color red   #f7768e;
-/*@define-color grn   #9ece6a;*/
 @define-color grn   #62b086;
 @define-color ylw   #e0af68;
 @define-color blu   #7aa2f7;
@@ -16,12 +11,27 @@
 @define-color brblk #444b6a;
 @define-color white #ffffff;
 
+/* TOKYONIGHT
+@define-color bg    #1a1b26;
+@define-color bg2   #333333;
+@define-color fg    #a9b1d6;
+@define-color fg2   #87afb1;
+@define-color blk   #32344a;
+@define-color red   #f7768e;
+@define-color grn   #9ece6a;
+@define-color ylw   #e0af68;
+@define-color blu   #7aa2f7;
+@define-color mag   #ad8ee6;
+@define-color cyn   #0db9d7;
+@define-color org   #ff9e64;
+@define-color brblk #444b6a;
+@define-color white #ffffff;
+*/
+
 * {
     font-family: "JetBrains Mono Nerd Font", monospace;
-    /*font-family: "Caskaydia Mono Nerd Font", monospace;*/
-    /*font-family: "Iosevka", monospace;*/
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 window#waybar {
@@ -49,7 +59,6 @@ window#waybar {
 
 #workspaces button.empty.focused {
     color: @bg;
-    /*background-color: @fg;*/
 }
 
 #workspaces button.urgent {
@@ -100,10 +109,6 @@ button:hover {
 
 #pulseaudio {
     color: @fg;
-    /*background-color: @bg2;
-    margin: 4px 4px 4px 4px;
-    padding: 4px 8px 4px 8px;
-    border-radius: 6px;*/
 }
 
 #disk { color: @fg; }

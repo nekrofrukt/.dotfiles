@@ -2,6 +2,10 @@
 
 Log entries from each working session, newest on top.
 
+## Swap file setup (2026-08-19)
+
+- Created 4G swap file at `/swapfile` (`fallocate -l 4G`, `mkswap`, `swapon`). Added to `/etc/fstab`. Set `vm.swappiness=20` via `/etc/sysctl.d/`. Verified with `free -h` (4.0Gi swap), `swapon --show`, `/proc/sys/vm/swappiness`.
+
 ## Brave Origin xbps-src + mako/BT fix (2026-08-18)
 
 - **Brave Origin**: replaced VUP install with xbps-src build. Created template at `~/src/void-packages/srcpkgs/brave-origin/` following the vivaldi pattern — downloads `brave-origin-{version}-linux-amd64.zip` from `github.com/brave/brave-browser/releases`, installs to `/opt/brave-origin/`, wrapper script in `files/brave-origin` adds Wayland flags. Key gotchas:

@@ -1,4 +1,6 @@
 feeds:
+  - url: https://voidlinux.org/atom.xml
+    name: Void News
   #- url: https://archlinux.org/feeds/news/
   #  name: Arch News
   #- url: https://security.archlinux.org/advisory/feed.atom
