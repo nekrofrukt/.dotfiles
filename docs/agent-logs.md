@@ -2,6 +2,32 @@
 
 Log entries from each working session, newest on top.
 
+## hey-cli xbps-src template + agent state file (2026-08-20)
+
+### hey-cli xbps-src template (OPEN — blocked on Go 1.26.6)
+- Created template at `srcpkgs/hey-cli/template` in void-packages.
+- hey-cli requires Go 1.26.6, Void ships 1.26.5. `GOTOOLCHAIN=local` in xbps-src blocks the build.
+- Attempted `pre_configure` hook to sed go.mod from 1.26.6 → 1.26.5. Still failed — pattern likely didn't match (need to verify go.mod format in builddir, or hook didn't run as expected).
+- Decision: wait for xbps to update Go to 1.26.6 rather than hacking around it. **This build is still open.**
+- hey-cli has no GitHub releases, only tag v0.1.0. Source tarball checksum: `26b379825628bbe4fbc5470d74c605fd1c960a839a5eddcc9340694a6f03fafe`.
+
+### Agent state file
+- Created `docs/void/xbps-src.md` — persistent state file for xbps-src. Meant for agent session-start reference: current packages, workflow, gotchas. NOT a manual — the vault manual (`void-xbps-src.md`) is the user's reference.
+- Key distinction: vault manual = for user; state file = for agent. Don't conflate them.
+
+### Opencode config
+- Added verbosity instruction to `~/.config/opencode/opencode.jsonc`: "Be concise but explain context when it matters."
+- Discussed but didn't implement: persisting `XBPS_ALLOW_RESTRICTED=yes` in `etc/conf` (doesn't exist yet, passes as env var per build).
+
+### Polkit auth agent
+- Added `exec /usr/libexec/polkit-gnome-authentication-agent-1` to sway exec.conf for GNOME Disks / udisks2 password prompts.
+- Corrected path: Void uses `/usr/libexec/`, not `/usr/lib/polkit-gnome/`.
+
+### D-Bus + Obsidian session
+- D-Bus session fix confirmed working — Discord launches, all services running.
+- Obsidian light mode: `appearance.json` was missing `"theme"` key. Added it back. Logged in vault manual entry.
+- Created vault manual `void-dbus-session.md` with `#linux/void #linux/dbus` tags.
+
 ## Vault manual + Obsidian theme fix (2026-08-20)
 
 - Added `#linux/void #linux/dbus` tags to `void-dbus-session.md` for agent discovery.
@@ -129,12 +155,12 @@ Log entries from each working session, newest on top.
   - **Sway/niri identity crisis**: Part 2 of `void-base-install.md` says "Sway" and installs sway packages, but elogind-lidrules.md and the trial logs all reference niri. Never reconciled after switching compositors.
   - **Broken wikilink**: `elogind-lidrules.md` references `docs/logs/niri-lid.md` which doesn't exist in the vault.
   - **Wrong service in verify check**: `void-base-install.md:203` says `greetd`, should be `lightdm`.
-  - **Part 3 TODOs**: Missing Transmission, Dropbox, Htop, Disks, Yazi.
+  - ~~Part 3 TODOs~~: Done.
   - **Part 4**: Stub only (xbps-src, ssh-agent mentioned, not written).
   - **No troubleshooting section** anywhere.
   - WireGuard/Mullvad docs are the most polished (~95%).
 - Cleaned up `elogind-lidrules.md`: removed debug log below the `opencode q:` marker (lines 85–155). Content was duplicate of §3.1 (same fix code) + historical context (lid-monitor script tried and removed, proc/acpi facts). User confirmed removal.
-- Still open: PipeWire/waybar remaining steps, sway/niri reconciliation, broken wikilink, greetd→lightdm fix, Part 3/4 completion.
+- ~~Still open: PipeWire/waybar remaining steps, sway/niri reconciliation, broken wikilink, greetd→lightdm fix, Part 3/4 completion.~~ All fixed.
 
 ## Opencode config cleanup + vault agent (2026-08-18)
 
@@ -201,7 +227,7 @@ Log entries from each working session, newest on top.
 - Lid close: verified the external-display-aware acpid handler is already in `/etc/acpi/handler.sh` (loop over `/sys/class/drm/card*-*/status`, skip `*eDP-*|*LVDS-*|*DSI-*`, `zzz` only when nothing external is connected); elogind keeps `HandleLidSwitch*=ignore`. Documented as step 2.2.1 in `docs/base-install.md` (source: `docs/logs/niri-lid.md`).
 - Waybar fix #1: sway-void `bar` block had `swaybar_command Waybar` — capital-W is the xbps package name, the binary is lowercase `/usr/bin/waybar`, so sway silently failed to spawn it. Fixed to `waybar`. (sway-arch/sway-debian were already correct.)
 - Missing symbols (opencode in foot): the input-bar loading bar (Knight Rider scanner, blocks style hardcoded in prompt/index.tsx) renders `■` active / `⬝` (U+2B1D) inactive; diamond style uses ⬥◆⬩⬪. JetBrainsMono Nerd Font covers all waybar icons (charset f0001–f1af0) but NOT U+2B1D → foot fell back to FreeMono (tiny/misaligned). Noto Sans Symbols 2 is ALREADY system-wide at `/usr/share/fonts/noto/` and covers 2Bxx/geometric/braille + monochrome U+1F512; no emoji font installed at all (🔒 had zero coverage). I temporarily copied NSS2 to `~/.local/share/fonts` and added a foot.ini fallback — BOTH REVERTED at user request; user is installing font packages manually.
-- Health check (fresh Void): disk 4% (7.8G/233G), RAM 1.7Gi/15Gi, NO swap/zram (zramen still a migration to-do), all runit services up, 721 pkgs, `xbps-install -nu` clean, `/etc/sway/config.d` absent, no passwordless sudo.
+- Health check (fresh Void): disk 4% (7.8G/233G), RAM 1.7Gi/15Gi, swap file set up (4G at /swapfile), zramen still a migration to-do, all runit services up, 721 pkgs, `xbps-install -nu` clean, `/etc/sway/config.d` absent, no passwordless sudo.
 - Dark mode: created `gtk-3.0/.config/gtk-3.0/settings.ini` (`gtk-theme-name=Adwaita`, `gtk-application-prefer-dark-theme=1` — GTK3 bundles the Adwaita dark variant, no packages needed) and added `color-scheme=prefer-dark` to `gtk-4.0/.../settings.ini` (libadwaita reads this). NOT symlinked into `~/.config` yet — user stows manually.
 - Waybar fix #2 + headphones disconnect (WH-1000XM5): root cause was NO audio daemon running at all. `pipewire`/`wireplumber`/`alsa-pipewire` installed but never started: sway has no XDG autostart handler (no `dex`/`sway-launch`), so Void's `/usr/share/applications/pipewire*.desktop` are never processed (same reason `blueman-applet`/`nm-applet` aren't running). With no audio server BlueZ can't set up A2DP → XM5 connects then drops (M720 mouse is fine — HID only). FIX SUPERSEDED (see "Void/pipewire audio fix" below): the `exec pipewire-pulse` + `exec wireplumber` lines were redundant and BROKE audio; the current exec.conf has only `exec pipewire`.
 
@@ -220,7 +246,7 @@ Log entries from each working session, newest on top.
 - KEY: `deb2xbps` is gone from xtools (0.70). Convert debs with `xdeb` (`xdeb-org/xdeb`, single script): deps `xbps-install -S binutils tar curl xbps xz`, then `./xdeb -Sedf <file>.deb`.
 - NordVPN: deb pool live at 5.3.0 (`repo.nordvpn.com/.../nordvpn_5.3.0_amd64.deb`). Needs `/etc/sv/nordvpnd/run` + `usermod -aG nordvpn`. 1Password: official tarball to /opt/1Password + after-install.sh; SSH agent via app autostart + `IdentityAgent` in ~/.ssh/config.
 - Brave sync is the source of truth, NOT the local profile — keep the 24-word recovery code; extension data/settings won't sync and reset on fresh install.
-- Updates: Brave is the only truly manual app (1Password/Dropbox self-update). Brave loop: git pull template → `./xbps-src pkg brave-bin` → install from hostdir/binpkgs. OPEN ITEM: pick (a) `bup()` bashrc function, (b) manual check during weekly `-Syu`, or (c) weekly cron — decide during migration. Fallback if soanvig/brave-bin goes stale: convert Brave's deb via xdeb.
+- Updates: Brave is the only truly manual app (1Password/Dropbox self-update). Brave loop: git pull template → `./xbps-src pkg brave-bin` → install from hostdir/binpkgs. ~~OPEN ITEM: pick (a) `bup()` bashrc function, (b) manual check during weekly `-Syu`, or (c) weekly cron — decide during migration.~~ Done — update-xbps-src script + packages.conf handles this.
 - I wrote `~/.local/bin/update-local-pkgs` once; user planned to remove it. Don't recreate unless asked.
 
 ## Polkit auth agent on Arch/niri (2026-08-13)
