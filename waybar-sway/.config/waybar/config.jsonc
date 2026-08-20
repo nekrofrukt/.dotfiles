@@ -20,6 +20,8 @@
     "modules-right": [
         "pulseaudio",
         "custom/sep",
+        "custom/kernel",
+        "custom/sep",
         "cpu",
         "custom/sep",
         "memory",
@@ -101,9 +103,9 @@
     },
     
     "network": {
-        "format-ethernet": "󰈀",
-        "format-wifi": "{icon}",
-        "format-disconnected": "󰊠",
+        "format-ethernet": "ENP 󰈀",
+        "format-wifi": "WLP {icon}",
+        "format-disconnected": "N/A 󰊠",
         "tooltip-format-wifi": "{gwaddr} | {essid}",
         "tooltip-format-ethernet": "{gwaddr}",
         "format-icons": {
@@ -114,18 +116,6 @@
 
     "tray": {
         "spacing": 10
-    },
-
-    "custom/sep": {
-        "format": "|",
-        "interval": 0,
-        "tooltip": false
-    },
-    
-    "custom/sep-pill": {
-        "format": ":",
-        "interval": 0,
-        "tooltip": false
     },
 
     "pulseaudio": {
@@ -150,20 +140,6 @@
         /*"on-click": "pavucontrol"*/
     },
 
-    "custom/vpn": {
-        "exec": "~/.config/waybar/scripts/vpn.sh",
-        "on-click": "~/.config/waybar/scripts/vpn.sh --toggle",
-        "interval": 5,
-        "return-type": "json"
-    },
-    
-    "custom/hey": {
-        "exec-if": "~/.config/waybar/scripts/hey.sh > /dev/null 2>&1",
-        "exec": "~/.config/waybar/scripts/hey.sh",
-        "interval": 60,
-        "return-type": "json"
-    },
-
     "battery": {
         "states": {
             "good": 80,
@@ -179,5 +155,46 @@
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
+    },
+
+    /* CURSTON MODULES */
+
+    "custom/sep": {
+        "format": "|",
+        "interval": 0,
+        "tooltip": false
+    },
+    
+    "custom/sep-pill": {
+        "format": ":",
+        "interval": 0,
+        "tooltip": false
+    },
+
+    "custom/vpn": {
+        "exec": "~/.config/waybar/scripts/vpn.sh",
+        "on-click": "~/.config/waybar/scripts/vpn.sh --toggle",
+        "interval": 5,
+        "return-type": "json"
+    },
+     
+    "custom/spotify": {
+        "exec": "~/.config/waybar/scripts/spotify.sh",
+        "interval": 0,
+        "return-type": "json"
+    },   
+    
+    "custom/hey": {
+        "exec-if": "~/.config/waybar/scripts/hey.sh > /dev/null 2>&1",
+        "exec": "~/.config/waybar/scripts/hey.sh",
+        "interval": 60,
+        "return-type": "json"
+    },
+
+    "custom/kernel": {
+        "format": "{}",
+        "exec": "uname -r",
+        "interval": 3600
     }
+
 }

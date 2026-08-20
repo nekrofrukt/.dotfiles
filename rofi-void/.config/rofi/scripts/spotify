@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+
+import subprocess
+import os
+import json
+from typing import Optional
+
+play_icon = "▶"
+pause_icon = "󰏤"
+next_icon = "󰒭"
+prev_icon = "󰒮"
+
+
+def get_playback() -> Optional[dict]:
+    result = subprocess.run(
+        ["spotify_player", "get", "key", "playback"],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        return None
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return None
+
+
+def get_track_info(playback: dict) -> str:
+    track = playback.get("item", {})
+    name = track.get("name", "Unknown")
+    artists = ", ".join(a["name"] for a in track.get("artists", []))
+    info = f"{artists} • {name}"
+    if len(info) > 40:
+        info = info[:37] + "…"
+    return info
+
+
+def run_rofi(options: list[str], prompt: str, mesg: str) -> str:
+    menu = "\n".join(options)
+    result = subprocess.run(
+        [
+            "rofi", "-dmenu", "-normal-window",
+            "-theme", os.path.expanduser("~/.config/rofi/styles/common.rasi"),
+            "-theme-str", "listview {columns: 3; lines: 1;}",
+            "-selected-row", "1",
+            "-p", prompt,
+            "-mesg", mesg,
+        ],
+        input=menu, capture_output=True, text=True,
+    ).stdout.strip()
+    return result
+
+
+def main():
+    playback = get_playback()
+
+    if playback is None:
+        subprocess.run(["rofi", "-e", "Spotify is not running"])
+        return
+
+    track = get_track_info(playback)
+    is_playing = playback.get("is_playing", False)
+
+    play_pause = pause_icon if is_playing else play_icon
+    options = [prev_icon, play_pause, next_icon]
+
+    selected = run_rofi(options, "Spotify", track)
+    if not selected:
+        return
+
+    actions = {
+        play_pause: "play-pause",
+        next_icon: "next",
+        prev_icon: "previous",
+    }
+    action = actions.get(selected)
+    if action:
+        subprocess.run(["spotify_player", "playback", action])
+
+
+if __name__ == "__main__":
+    main()

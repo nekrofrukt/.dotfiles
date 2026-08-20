@@ -95,10 +95,16 @@ button:hover {
 
 #custom-vpn, #pulseaudio { }
 
-#custom-vpn {
+#custom-vpn, #custom-kernel {
     color: @fg;
     padding-left: 6px;
     padding-right: 6px;
+}
+
+#custom-spotify {
+    color: @fg;
+    padding-left: 16px;
+    padding-right: 0px;
 }
 
 #custom-hey {
@@ -128,7 +134,7 @@ button:hover {
 
 #network {
     color: @bg;
-    padding: 0 16px 0 10px;
+    padding: 0 16px 0 6px;
 }
 
 #network.ethernet { color: @ylw; }
