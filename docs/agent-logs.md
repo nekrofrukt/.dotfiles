@@ -2,6 +2,46 @@
 
 Log entries from each working session, newest on top.
 
+## Vault manual + Obsidian theme fix (2026-08-20)
+
+- Added `#linux/void #linux/dbus` tags to `void-dbus-session.md` for agent discovery.
+- Vault agent (`opencode/.config/opencode/agents/vault.md`) confirmed has `read: allow` for `~/Dropbox/obsidian/home_vault`.
+
+- Created `void/manuals/dbus-session.md` in the vault — general D-Bus session bus guide (not Flatpak-specific), covering problem, two-part fix (.xprofile + sway exec.conf), and why the order matters.
+- Obsidian suddenly in light mode: `appearance.json` was missing the `"theme"` key. Added `"theme": "obsidian"` back. Likely lost during a sync conflict (many conflicted workspace copies in `.obsidian/`). Our GTK dark mode changes didn't cause this — Obsidian uses its own Electron theming, not GTK.
+- Discord confirmed working after the D-Bus session bus fix.
+
+## Flatpak Discord D-Bus session bus fix (2026-08-20)
+
+- Flatpak Discord still failed after reboot: `zypak-helper` couldn't connect to session bus (`DBUS_SESSION_BUS_ADDRESS` not set).
+- Root cause: no session D-Bus daemon was running. Only the system bus (`dbus-daemon --system`) and the at-spi accessibility bus existed. `dbus-update-activation-environment` was trying to push env vars to a non-existent session bus.
+- Two-part fix:
+  1. Created `~/.xprofile` with `export DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"` — lightdm's `Xsession` sources this before running sway, so all children (sway, flatpak, etc.) inherit the env var.
+  2. Changed `exec.conf` line to: `exec sh -c 'dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus --fork && dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS'` — starts the daemon first, then pushes env vars into it.
+- Key insight: `dbus-update-activation-environment` reads `DBUS_SESSION_BUS_ADDRESS` from the current environment to connect to the bus — it needs the var set before it runs. That's why `.xprofile` must come before sway.
+- Testing: `export DBUS_SESSION_BUS_ADDRESS=...` in a terminal, start daemon, run `dbus-update-activation-environment`, launch Discord — same as what the config does manually. Rebooting to verify.
+
+## OpenCode email issue + Flatpak Discord + D-Bus fix (2026-08-20)
+
+### OpenCode GitHub email
+- User had old GitHub email persisting in OpenCode dashboard after revoking OAuth and re-authenticating.
+- Local OpenCode auth data (`~/.local/share/opencode/opencode.db`, `auth.json`) confirmed empty — no local caching.
+- Issue is server-side in OpenCode's cloud backend. Old email appears under "members" in dashboard, payment flow defaults to it.
+- Drafted support email. Send via Discord (https://opencode.ai/discord) or GitHub issue (https://github.com/anomalyco/opencode/issues).
+
+### Flatpak Discord
+- Discord template exists in xbps-src (`srcpkgs/discord/template`, v1.0.154, orphaned, `nonfree` repo).
+- Not published in remote repos — must be built locally with `XBPS_ALLOW_RESTRICTED=yes`.
+- User opted for Flatpak instead (simpler, auto-updates). Installed via `flatpak install flathub com.discordapp.Discord`.
+
+### D-Bus session bus issue
+- Flatpak Discord failed to launch: `zypak-helper` couldn't connect to session bus (`DBUS_SESSION_BUS_ADDRESS` not set).
+- Root cause: elogind on Void Linux is not exporting `DBUS_SESSION_BUS_ADDRESS` to the session environment.
+- The `session-wrapper=/etc/lightdm/Xsession` in lightdm.conf is an X11-only wrapper (default) — not the cause but doing nothing useful for Wayland.
+- Sway's PAM config includes `pam_elogind.so` but the dbus address isn't propagated.
+- Fix: added `exec dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE` to `~/.config/sway/modules/exec.conf`.
+- User rebooting to test.
+
 ## Kernel update boot clutter (2026-08-20)
 
 - After `xi -Su`, kernel packages (linux6.12 6.12.104, linux6.18 6.18.45) updated successfully — initramfs generated, GRUB config updated.

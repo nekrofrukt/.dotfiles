@@ -32,6 +32,7 @@ alias xi='sudo xbps-install'
 alias xq='xbps-query'
 alias xr='sudo xbps-remove'
 alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
+alias fu='flatpak update'
 
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'
