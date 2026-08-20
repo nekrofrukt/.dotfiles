@@ -34,11 +34,16 @@ alias xr='sudo xbps-remove'
 alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 alias fu='flatpak update'
 
+alias auto-vkpurge='sudo vkpurge rm all'
+
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'
 alias suspend='loginctl suspend'
 
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
+
+alias oc='opencode'
+alias ocd='cd; cd .dotfiles; opencode'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
