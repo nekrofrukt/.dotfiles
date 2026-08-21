@@ -60,7 +60,9 @@
             "org.gnome.Nautilus": "Files",
             "org.gnome.DiskUtility": "Disks",
             "md.obsidian.Obsidian": "Obsidian",
-            "com.ktechpit.whatsie": "WhatSie"
+            "com.ktechpit.whatsie": "WhatSie",
+            "spotify": "Spotify",
+            "org.nicotine_plus.Nicotine": "Nicotine+"
         }
     },
 

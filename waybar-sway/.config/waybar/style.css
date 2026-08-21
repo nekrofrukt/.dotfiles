@@ -29,15 +29,14 @@
 */
 
 * {
-    font-family: "JetBrains Mono Nerd Font", monospace;
-    font-size: 16px;
-    font-weight: 600;
-}
+    font-family: "JetBrains Mono Nerd Font", monospace; font-size: 16px; font-weight: 600; }
 
 window#waybar {
     color: @fg;
     background: @bg;
 }
+
+/* WORKSPACES */
 
 #workspaces button {
     margin: 4px 0px 4px 4px;
@@ -51,8 +50,8 @@ window#waybar {
     background: @fg;
     border-radius: 0px;
 }
-/* for niri: "button.active */
 
+/* for niri: "button.active */
 #workspaces button.empty {
     color: @brblk;
 }
@@ -80,6 +79,7 @@ button:hover {
     padding: 0px 0px 0px 16px;
 }
 
+/* RIGHT/LEFT PADDING */
 #clock,
 #custom-sep,
 #battery,
@@ -91,12 +91,10 @@ button:hover {
     padding: 0 8px;
 }
 
-#clock { color: @fg; }
-
-#custom-vpn, #pulseaudio { }
-
-#custom-vpn, #custom-kernel {
-    color: @fg;
+#custom-vpn,
+#custom-hey,
+#custom-kernel,
+#pulseaudio {
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -106,20 +104,6 @@ button:hover {
     padding-left: 16px;
     padding-right: 0px;
 }
-
-#custom-hey {
-    color: @fg;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-
-#pulseaudio {
-    color: @fg;
-}
-
-#disk { color: @fg; }
-#memory { color: @fg; }
-#cpu { color: @fg; }
 
 #battery {
     color: @fg;
@@ -134,21 +118,7 @@ button:hover {
 
 #network {
     color: @bg;
-    padding: 0 16px 0 6px;
-}
-
+    padding: 0 16px 0 6px; }
 #network.ethernet { color: @ylw; }
 #network.wifi { color: @blu; }
 #network.disconnected { color: @red; }
-
-#custom-sep {
-    color: @fg;
-}
-
-#custom-sep-pill {
-    color: @fg;
-    border-bottom: 4px solid @fg;
-}
-
-#tray { color: @fg; }
-
