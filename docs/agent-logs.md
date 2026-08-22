@@ -2,6 +2,11 @@
 
 Log entries from each working session, newest on top.
 
+## Printscreening setup (2026-08-21)
+
+- **TODO**: Set up screenshots properly on sway — currently no screenshot tool configured.
+- Plan: `grim` + `slurp` (region select), `wl-copy` for clipboard; bind Print / region / window variants in sway config. Also registered in `~/Downloads/todo.md`.
+
 ## Boot clutter cleanup (2026-08-20)
 
 - Removed 6 orphaned boot files (~121MB): vmlinuz/initramfs/config for 6.12.103_1 and 6.18.44_1.
