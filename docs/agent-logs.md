@@ -2,6 +2,12 @@
 
 Log entries from each working session, newest on top.
 
+## Swaylock restyle to Gruvbox (2026-08-23)
+
+- Replaced mixed-palette indicator colors in `swaylock/.config/swaylock/config` with Gruvbox dark: ring `8ec07c`, fill `282828d9`, verifying `83a598`, wrong `fb4934`, key-hl `fabd2f`, bs-hl `fe8019`.
+- Kept wallpaper (`walls/night01.jpg`), font, radius/thickness, transparent line colors.
+- Live config applies via existing symlink `~/.config/swaylock -> .dotfiles/swaylock/.config/swaylock`.
+
 ## Printscreening setup (2026-08-21)
 
 - **TODO**: Set up screenshots properly on sway — currently no screenshot tool configured.
