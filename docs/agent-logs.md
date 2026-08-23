@@ -2,6 +2,16 @@
 
 Log entries from each working session, newest on top.
 
+## xu-src hardening against incomplete releases (2026-08-23)
+
+- Obsidian v1.13.8 was tagged on GitHub but shipped only the `.apk` asset — no Linux tarball — so `xu-src` 404'd mid-download and `set -e` killed the whole run (brave-origin never processed).
+- Changes to `scripts/void/xbps/update-xbps-src`:
+  - Check phase: when an update is detected, query the release via GitHub API and verify the configured distfile exists among assets; skip with a clear message if not published yet.
+  - Tag-resolution curl guarded so network/API failure skips the package instead of aborting (`set -euo pipefail`).
+  - Update phase: download failures and empty checksums now `continue` to the next package instead of killing the script; `rm` → `rm -f` on tmpfile cleanup.
+- Verified: v1.13.7 tarball matches asset check, v1.13.8 correctly skipped, brave-origin v1.93.138 still offered; templates untouched by aborted dry run.
+- Note: obsidian update will appear once upstream uploads `obsidian-1.13.8.tar.gz`; re-run `xu-src` then.
+
 ## Swaylock restyle to Gruvbox (2026-08-23)
 
 - Replaced mixed-palette indicator colors in `swaylock/.config/swaylock/config` with Gruvbox dark: ring `8ec07c`, fill `282828d9`, verifying `83a598`, wrong `fb4934`, key-hl `fabd2f`, bs-hl `fe8019`.

@@ -36,10 +36,13 @@ while IFS='|' read -r pkgname source_type source_args distfile_pattern running_c
 
     case "$source_type" in
         github)
-            latest=$(curl -fsSI "https://github.com/$source_args/releases/latest" \
+            if ! latest=$(curl -fsSI "https://github.com/$source_args/releases/latest" \
                 | tr -d '\r' \
                 | grep -i '^location:' \
-                | rev | cut -d/ -f1 | rev)
+                | rev | cut -d/ -f1 | rev); then
+                echo "$pkgname: could not resolve latest release, skipping."
+                continue
+            fi
             ;;
         *)
             echo "Unknown source type: $source_type"
@@ -51,6 +54,19 @@ while IFS='|' read -r pkgname source_type source_args distfile_pattern running_c
 
     if [ "$latest_nov" != "$current" ]; then
         [ -z "$distfile_pattern" ] && distfile_pattern="${pkgname}-{version}.tar.gz"
+
+        # Verify the distfile is actually published in the release before offering it
+        version="${latest#v}"
+        distfile="${distfile_pattern//\{version\}/$version}"
+        if ! release_json=$(curl -fsS "https://api.github.com/repos/$source_args/releases/tags/$latest"); then
+            echo "$pkgname: $current -> $latest (release lookup failed, skipping)."
+            continue
+        fi
+        if ! grep -q "\"name\": \"$distfile\"" <<<"$release_json"; then
+            echo "$pkgname: $current -> $latest available, but '$distfile' not published yet. Skipping."
+            continue
+        fi
+
         echo "$pkgname: $current -> $latest"
         UPDATES+=("$pkgname|$source_type|$source_args|$current|$latest|$distfile_pattern|${running_check:-}")
     fi
@@ -92,9 +108,17 @@ for update in "${UPDATES[@]}"; do
 
             echo "  Downloading $distfile..."
             tmpfile=$(mktemp)
-            curl -fSL "$url" -o "$tmpfile" --progress-bar 2>&1
+            if ! curl -fSL "$url" -o "$tmpfile" --progress-bar 2>&1; then
+                rm -f "$tmpfile"
+                echo "  Download failed, skipping."
+                continue
+            fi
             checksum=$(sha256sum "$tmpfile" | awk '{print $1}')
-            rm "$tmpfile"
+            rm -f "$tmpfile"
+            if [ -z "$checksum" ]; then
+                echo "  Checksum computation failed, skipping."
+                continue
+            fi
             echo "  Checksum: ${checksum:0:16}..."
 
             sed -i "s/^version=.*/version=$version/" "$template"
