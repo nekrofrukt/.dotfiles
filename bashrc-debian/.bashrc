@@ -9,6 +9,7 @@ case $- in
 esac
 
 export PATH="$HOME/.local/bin:$PATH"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 eval "$(starship init bash)"
 
 alias ls='ls --color=auto'
@@ -129,5 +130,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"

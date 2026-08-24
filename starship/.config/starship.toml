@@ -8,8 +8,9 @@ format = "[$user]($style)"
 show_always = true
 
 [hostname]
-format = "[$hostname]($style)"
+style = "#fab387"
 ssh_only = true
+format = "[$hostname]($style) "
 
 [character]
 success_symbol = '[\$](green)'

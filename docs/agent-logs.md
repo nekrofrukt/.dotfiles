@@ -2,6 +2,23 @@
 
 Log entries from each working session, newest on top.
 
+## Starship hostname: Catppuccin peach + conditional space (2026-08-24)
+
+- `[hostname]` in `starship/.config/starship.toml`: added `style = "#fab387"` (Catppuccin Mocha peach — foot theme confirmed via `include = /usr/share/foot/themes/catppuccin-mocha`) and moved the trailing space inside the module format (`format = "[$hostname]($style) "`), so it appears only when the module does (ssh_only=true already set).
+- Username block left inert ($username not referenced in top-level format).
+- Verified by simulating SSH env vars: local prompt has no hostname/no leading space; SSH-simulated shows hostname in truecolor 38;2;250;179;135 followed by directory.
+- Gotcha discovered: starship 1.26 ssh_only detection keys off SSH_CLIENT/SSH_CONNECTION (not SSH_TTY alone) — matters only for synthetic tests; real SSH sessions carry both.
+- Note: format string starts with a newline, so `starship prompt` line 1 is always blank; content is on line 2.
+
+## tmux.conf trimmed toward stock + new herdr config (2026-08-24)
+
+- `tmux/.config/tmux/tmux.conf`: removed `unbind C-b` (was silently killing every prefixed bind — only S-arrows worked), custom `.`/`-` splits, commented C-a/Meta-hjkl blocks, duplicate `pane-base-index` line. Kept per user choice: truecolor lines, mouse on, `set-clipboard on`, 1-based numbering + renumber, hjkl pane nav, reload-r, S-arrows window switching, Tokyonight theme block. Net result: stock tmux behavior (default `C-b` prefix, default `"`/`%` splits) + those keepers.
+- New `herdr/.config/herdr/config.toml`: `onboarding = false`; S-arrows as direct chords for tab switching; tmux-default split keys (`prefix+%`, `prefix+"`) added alongside herdr defaults (`prefix+v`/`prefix+minus`). Reload needs no config — native `prefix+shift+r`. hjkl pane focus and mouse are herdr defaults already.
+- Verified: tmux smoke test in isolated socket `-L dotfiles-test` (options + keybinds correct); herdr validated against installed binary v0.8.2 via isolated session/socket server run — zero fallback warnings, so raw `%`/`"` punctuation keys parse fine.
+- User stows manually (per AGENTS.md). Live herdr server untouched during testing.
+- **Correction 1 (icons):** first rewrite silently dropped invisible Nerd Font glyphs from status bar (U+E0B6 half-circle, U+E795 in session pill) — Read tool renders PUA chars invisibly; earlier "identical" check was against HEAD which already contained the broken rewrite. Restored theme block byte-exact from pre-trim commit 00a4d4f via od-diff verification.
+- **Correction 2 (TERM):** `'tmux-256color': unknown terminal type` was latent from the original config — no box has that terminfo (Arch: no repo pkg provides it; Debian: needs ncurses-term). Switched `default-terminal` to `screen-256color` per user choice; verified TERM resolves inside isolated tmux.
+
 ## Mullvad × Tailscale DNS conflict fix (2026-08-24)
 
 - Symptom: internet very slow with Mullvad WG up — every DNS lookup burned a ~5s timeout before falling back and succeeding.
