@@ -2,6 +2,16 @@
 
 Log entries from each working session, newest on top.
 
+## Mullvad × Tailscale DNS conflict fix (2026-08-24)
+
+- Symptom: internet very slow with Mullvad WG up — every DNS lookup burned a ~5s timeout before falling back and succeeding.
+- Cause: wg-quick full-tunnel policy rules (prio 5208/5209, table 51820) shadowed Tailscale's rules (prio 5270, table 52). Packets to 100.64.0.0/10 (MagicDNS `100.100.100.100`, tailnet peers) were swallowed into the Mullvad tunnel and dropped; IPv6 escaped because fd7a::/48 lives in the main table, which rule 5208 checks first.
+- Fix: user added `PostUp = ip route replace 100.64.0.0/10 dev tailscale0 2>/dev/null || true` under `[Interface]` of `/etc/wireguard/se-sto-wg-001.conf` (root-owned, not in dotfiles).
+- Verified: DNS 5.0s → 0.02–0.03s; tailnet ping 100% loss → working; route auto-re-added after manual wipe + waybar toggle cycle.
+- NM dispatcher hook was rejected: iface shows "connected (externally)", wg-quick manages it (waybar vpn.sh toggle), so dispatcher never fires. Sudoers NOPASSWD only covers wg-quick up/down + wg show — extra commands at toggle time would prompt for password, ruling out route-add in vpn.sh too.
+- Stray NM profile `se-sto-wg-001` found at volatile `/run/NetworkManager/system-connections/` (not persisted to disk) — disappears on reboot, left alone.
+- Documented in vault manual `void-wireguard.md` (Troubleshooting section + Setup note about re-adding PostUp after config regeneration).
+
 ## xu-src hardening against incomplete releases (2026-08-23)
 
 - Obsidian v1.13.8 was tagged on GitHub but shipped only the `.apk` asset — no Linux tarball — so `xu-src` 404'd mid-download and `set -e` killed the whole run (brave-origin never processed).
