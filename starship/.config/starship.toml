@@ -1,5 +1,5 @@
 format = """
-$directory$fill$git_branch$git_status$cmd_duration
+$hostname$directory$fill$git_branch$git_status$cmd_duration
 $character
 """
 
@@ -8,8 +8,8 @@ format = "[$user]($style)"
 show_always = true
 
 [hostname]
-format = "@[$hostname]($style)"
-ssh_only = false
+format = "[$hostname]($style)"
+ssh_only = true
 
 [character]
 success_symbol = '[\$](green)'

@@ -1,0 +1,10 @@
+onboarding = false
+
+[keys]
+# Shift+arrows tab switching (mirrors tmux.conf)
+next_tab = ["prefix+n", "shift+right"]
+previous_tab = ["prefix+p", "shift+left"]
+
+# tmux default split keys alongside herdr defaults
+split_vertical = ["prefix+v", "prefix+%"]        # side-by-side
+split_horizontal = ["prefix+minus", 'prefix+"']  # stacked
