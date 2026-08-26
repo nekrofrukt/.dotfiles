@@ -11,7 +11,8 @@ Log entries from each working session, newest on top.
 - Working approach for horizontal gutters on selected items: `listview { padding: 0 10px; }` in `theme.rasi` — insets all items from the window edges. `element { padding: 8px 0; }` adds vertical height to each row.
 - Working approach for drun window width: appending `window { width: Xpx; }` at the **end** of `config.rasi` (after `@theme`) overrides drun's built-in default. Theme file window properties are ignored by drun, but config.rasi post-theme overrides are not.
 - Added `drun-display-format: "{name}";` to remove "(Web Browser)" suffix from drun entries.
-- Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters, taller elements, 200px drun width.
+- Removed uptime display from `main-menu` script (kept in `power-sway`). Removed `get_uptime()` function and prompt/mesg args from the rofi call.
+- Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters (`0 10px 10px 10px` — no top padding), taller elements, 200px drun width.
 - Net: ~48 lines removed across 4 files, one file deleted.
 
 ## Starship hostname: Catppuccin peach + conditional space (2026-08-24)
