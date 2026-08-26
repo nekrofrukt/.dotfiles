@@ -2,6 +2,16 @@
 
 Log entries from each working session, newest on top.
 
+## Rofi-void styling cleanup + drun menu tweaks (2026-08-26)
+
+- Cleaned up `rofi-void/.config/rofi/` files: removed commented-out color palettes, duplicate reset block, dead `performance-profile.rasi`, commented-out modi entries, and stray comments.
+- Fixed import chain: `config.rasi` → `share.rasi` (colors + config + window) → `theme.rasi` (main launcher styling). Variant styles import `common.rasi` → `share.rasi`.
+- Key lesson: `theme.rasi` CANNOT import `share` in place of `config.rasi` — when scripts use `-theme common.rasi`, they bypass `config.rasi`, so `common.rasi` must import `share` directly for colors/config.
+- Key lesson: rofi 2.0.0's drun mode ignores element-level styling (padding, margin, background-color on `element selected`). Only global `* {}` variables, window properties, and listview-level properties render. `-theme-str` is also ignored in drun mode.
+- Working approach for horizontal gutters on selected items: `listview { padding: 0 10px; }` in `theme.rasi` — insets all items from the window edges. `element { padding: 8px 0; }` adds vertical height to each row.
+- Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters, taller elements.
+- Net: ~48 lines removed across 4 files, one file deleted.
+
 ## Starship hostname: Catppuccin peach + conditional space (2026-08-24)
 
 - `[hostname]` in `starship/.config/starship.toml`: added `style = "#fab387"` (Catppuccin Mocha peach — foot theme confirmed via `include = /usr/share/foot/themes/catppuccin-mocha`) and moved the trailing space inside the module format (`format = "[$hostname]($style) "`), so it appears only when the module does (ssh_only=true already set).

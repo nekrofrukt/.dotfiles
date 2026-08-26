@@ -8,3 +8,6 @@ previous_tab = ["prefix+p", "shift+left"]
 # tmux default split keys alongside herdr defaults
 split_vertical = ["prefix+v", "prefix+%"]        # side-by-side
 split_horizontal = ["prefix+minus", 'prefix+"']  # stacked
+
+[ui]
+agent_panel_sort = "spaces"

@@ -1,40 +1,14 @@
 * {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  spacing: 0;
-
   urgent: #ffa07a;
   active: @fg;
   bg: #1a1b26;
   bg-alt: #242633;
-  border: #393B47;
+  border: #a9b1d6;
   fg: #a9b1d6;
   fg-alt: #989fc0;
-selected: #62b086;
+  selected: #62b086;
   background-color: @bg;
   text-color: @fg;
-
-  /*urgent: #ffa07a;
-  active: @fg;
-  bg: #1a1b26;
-  bg-alt: #242633;
-  border: #393B47;
-  fg: #a9b1d6;
-  fg-alt: #989fc0;
-  selected: #f7768e;
-  background-color: @bg;
-  text-color: @fg;*/
-
-  /*urgent: #ffa07a;
-  active: #ff6b8a;
-  bg: #1a1426;
-  bg-alt: #2d2438;
-  fg: #9d8ba8;
-  fg-alt: #e8b4c8;
-  selected: @fg-alt;
-  background-color: @bg;
-  text-color: @fg;*/
 }
 
 configuration {
@@ -54,15 +28,15 @@ configuration {
   }
 
   ssh {
-    display-name: "";
+    display-name: "";
   }
 
   run {
-    display-name: "";
+    display-name: "";
   }
 
   window {
-    display-name: "";
+    display-name: "";
   }
 
   microphone {
@@ -75,7 +49,7 @@ configuration {
   }
 
   filebrowser {
-    display-name: "";
+    display-name: "";
   }
 
   display-drun: "Application:";
@@ -90,31 +64,24 @@ configuration {
     "window",
     "filebrowser",
     "ssh"
-    //"microphone",
-    //"performance-profile",
-    //"av-recorder"
   ];
   show-icons: true;
   terminal: "foot";
 }
 
 window {
-    /* properties for window widget */
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
     width:                       400px;
     x-offset:                    0px;
     y-offset:                    0px;
-
-    /* properties for all widgets */
-    //font:                        "Caskaydia Mono Nerd Font 12";
     font:                        "JetBrains Mono Nerd Font 12";
     enabled:                     true;
     margin:                      0px;
     padding:                     0px;
     border:                      2px solid;
-    border-radius:               4px;
+    border-radius:               0px;
     border-color:                @border;
     cursor:                      "default";
     background-color:            @bg;

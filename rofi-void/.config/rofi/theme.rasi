@@ -1,12 +1,5 @@
 @import "share"
 
-/*
- * ROFI colours
- *
- * Inspired by nightfox
- */
-
-
 window {
   transparency: "real";
   width: 700px;
@@ -17,7 +10,7 @@ mainbox {
 }
 
 inputbar {
-  background-color: @bg-alt;
+  background-color: transparent;
   children: [prompt, entry];
 }
 
@@ -33,10 +26,12 @@ prompt {
 
 listview {
   lines: 8;
+  padding: 0 10px;
 }
 
 element {
   children: [element-icon, element-text];
+  padding: 8px 0;
 }
 
 element-icon {
@@ -58,11 +53,11 @@ element selected.normal {
 
 element-text selected,
 element-text selected.normal {
-  background-color: @bg;
+  background-color: transparent;
   text-color: @selected;
 }
 
 element-icon selected,
 element-icon selected.normal {
-  background-color: @bg;
+  background-color: transparent;
 }
