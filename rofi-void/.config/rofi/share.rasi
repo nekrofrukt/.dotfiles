@@ -55,6 +55,7 @@ configuration {
   display-drun: "Application:";
   display-window: "Window:";
   display-filebrowser: "Files:";
+  drun-display-format: "{name}";
   case-sensitive: false;
   sort: true;
   sorting-method: "fzf";

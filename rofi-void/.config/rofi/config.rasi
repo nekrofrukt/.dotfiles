@@ -1,2 +1,6 @@
 @import "share"
 @theme "theme"
+
+window {
+  width: 400px;
+}

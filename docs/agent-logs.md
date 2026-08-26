@@ -9,7 +9,9 @@ Log entries from each working session, newest on top.
 - Key lesson: `theme.rasi` CANNOT import `share` in place of `config.rasi` — when scripts use `-theme common.rasi`, they bypass `config.rasi`, so `common.rasi` must import `share` directly for colors/config.
 - Key lesson: rofi 2.0.0's drun mode ignores element-level styling (padding, margin, background-color on `element selected`). Only global `* {}` variables, window properties, and listview-level properties render. `-theme-str` is also ignored in drun mode.
 - Working approach for horizontal gutters on selected items: `listview { padding: 0 10px; }` in `theme.rasi` — insets all items from the window edges. `element { padding: 8px 0; }` adds vertical height to each row.
-- Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters, taller elements.
+- Working approach for drun window width: appending `window { width: Xpx; }` at the **end** of `config.rasi` (after `@theme`) overrides drun's built-in default. Theme file window properties are ignored by drun, but config.rasi post-theme overrides are not.
+- Added `drun-display-format: "{name}";` to remove "(Web Browser)" suffix from drun entries.
+- Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters, taller elements, 200px drun width.
 - Net: ~48 lines removed across 4 files, one file deleted.
 
 ## Starship hostname: Catppuccin peach + conditional space (2026-08-24)
