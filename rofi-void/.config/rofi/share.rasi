@@ -6,7 +6,7 @@
   border: #a9b1d6;
   fg: #a9b1d6;
   fg-alt: #989fc0;
-  selected: #62b086;
+  selected: #7aa2f7;
   background-color: @bg;
   text-color: @fg;
 }

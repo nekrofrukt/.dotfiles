@@ -18,13 +18,6 @@ UTILITIES = [blt_icon, vpn_icon, ssh_icon]
 APPLICATIONS = [spt_icon, nom_icon]
 
 
-def get_uptime() -> str:
-    result = subprocess.run(["uptime"], capture_output=True, text=True).stdout.strip()
-    if " up " in result:
-        return result.split(" up ")[1].split(",")[0].strip()
-    return result
-
-
 def show_rofi(options: List[str], theme: str = "utils", prompt: str = "", mesg: str = "") -> str:
     menu = "\n".join(options)
     cmd = [
@@ -44,11 +37,8 @@ def run_cmd(cmd: List[str]):
 
 
 def main():
-    uptime = get_uptime()
     selected = show_rofi(
         [util_icon, app_icon, nts_icon, pwr_icon],
-        prompt=f"Uptime: {uptime}",
-        mesg=f"Uptime: {uptime}",
     )
 
     if not selected:
