@@ -2,6 +2,19 @@
 
 Log entries from each working session, newest on top.
 
+## Rofi main-menu → flat drun-style menu + icon slot glyphs (2026-08-27)
+
+- Flattened `rofi-void/.config/rofi/scripts/main-menu` from a nested menu (Utilities/Apps/Power submenus) into a top-level flat list: Bluetooth, Apps, Add a todo, SSH, VPN, Power.
+- Submenus (Apps → Spotify/Nom; Power) kept intact in code but no longer the entry point except Apps (still reachable).
+- Menu items now use the **real drun `element-icon` slot** instead of embedding glyphs in the entry text. Built via dmenu row option `\0icon\x1f<span color="#a9b1d6">GLYPH</span>` — a Pango markup-string icon renders in `element-icon`, so `element-text` stays a plain label and left-aligns.
+- **Escaping lesson:** In Python, `\\0`/`\\x1f` produce literal backslash-zero (WRONG, rofi won't parse); must use `\0`/`\x1f` (real control bytes) in the f-string.
+- **Case sensitivity lesson:** rofi `-dmenu` mode IGNORES the global `case-sensitive: false` config and the `-no-case-sensitive` flag — it requires the dmenu-compatible `-i` flag (`-i  Set filter to be case insensitive`). Switched from `-no-case-sensitive` to `-i`.
+- Requires `-show-icons true` on the dmenu so `element-icon` is present in the layout (`theme.rasi` has `children: [element-icon, element-text]`).
+- **Icon color limitation:** markup-string icons in `element-icon` do NOT inherit the theme `text-color` (incl. `selected` state) — rofi limitation (issues #1132, #2026, unfixed through 2.0.0). Color is locked to the hardcoded `<span color="...">` value (#a9b1d6 = Nightfox `@fg`). Row background still highlights on select.
+- **SSH glyph clipping:** SSH used Octicon U+F489 (16px wide at JetBrains 12) — the widest glyph, clipped the fixed 20px icon box. Replaced with `󰒍` (U+F048D, 14px). Measured glyph ink widths with Pango/Cairo via GI: Material icons (blt/vpn/todo/app) are narrow (~10-14px); Octicons/FA are wide (~16px+).
+- Note: comparing glyphs through chat is unreliable — the glyph characters I display don't match the user's terminal rendering. Wrote candidates to `/tmp/opencode/glyph_picker.txt` for the user to view with the correct font.
+- Main-menu icon size set via scoped `-theme-str`: `element-icon { size: 24px; padding: 6px 10px; }` (only on the no-theme main-menu branch, so drun/submenus untouched). 10px = left/right padding around glyphs.
+
 ## Rofi-void styling cleanup + drun menu tweaks (2026-08-26)
 
 - Cleaned up `rofi-void/.config/rofi/` files: removed commented-out color palettes, duplicate reset block, dead `performance-profile.rasi`, commented-out modi entries, and stray comments.

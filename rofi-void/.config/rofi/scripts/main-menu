@@ -2,28 +2,47 @@
 
 import subprocess
 import os
-from typing import List
+from typing import List, Tuple
 
-blt_icon = "󰂯 Bluetooth"
-vpn_icon = "󰦝 VPN"
-ssh_icon = " SSH"
+ICON_COLOR = "#a9b1d6"
+
+blt_glyph = "󰂯"
+vpn_glyph = "󰦝"
+ssh_glyph = "󰒍"
+todo_glyph = "󰄲"
+pwr_glyph = ""
+app_glyph = "󰀻"
+
 spt_icon = "󰓇 Spotify"
 nom_icon = "󰑬 Nom"
-nts_icon = " Notes"
-pwr_icon = " Power"
-util_icon = "󱁤 Utilities"
-app_icon = "󰀻 Apps"
 
-UTILITIES = [blt_icon, vpn_icon, ssh_icon]
 APPLICATIONS = [spt_icon, nom_icon]
 
+MENU_ITEMS: List[Tuple[str, str]] = [
+    ("Bluetooth", blt_glyph),
+    ("Apps", app_glyph),
+    ("Add a todo", todo_glyph),
+    ("SSH", ssh_glyph),
+    ("VPN", vpn_glyph),
+    ("Power", pwr_glyph),
+]
 
-def show_rofi(options: List[str], theme: str = "utils", prompt: str = "", mesg: str = "") -> str:
+
+def row(label: str, glyph: str = None) -> str:
+    if glyph:
+        return f"{label}\0icon\x1f<span color=\"{ICON_COLOR}\">{glyph}</span>"
+    return label
+
+
+def show_rofi(options: List[str], theme: str = None, prompt: str = "", mesg: str = "") -> str:
     menu = "\n".join(options)
     cmd = [
-        "rofi", "-dmenu", "-normal-window",
-        "-theme", os.path.expanduser(f"~/.config/rofi/styles/{theme}.rasi"),
+        "rofi", "-dmenu", "-normal-window", "-show-icons", "true", "-i",
     ]
+    if theme:
+        cmd.extend(["-theme", os.path.expanduser(f"~/.config/rofi/styles/{theme}.rasi")])
+    else:
+        cmd.extend(["-theme-str", "element-icon { size: 24px; padding: 6px 10px; }"])
     if prompt:
         cmd.extend(["-p", prompt])
     if mesg:
@@ -37,27 +56,15 @@ def run_cmd(cmd: List[str]):
 
 
 def main():
-    selected = show_rofi(
-        [util_icon, app_icon, nts_icon, pwr_icon],
-    )
+    selected = show_rofi([row(label, glyph) for label, glyph in MENU_ITEMS])
 
     if not selected:
         return
 
-    if selected == util_icon:
-        sub = show_rofi(UTILITIES, theme="bluetooth")
-        if not sub:
-            return
-        actions = {
-            blt_icon: [os.path.expanduser("~/.config/rofi/scripts/bluetooth")],
-            vpn_icon: [os.path.expanduser("~/.config/rofi/scripts/vpn")],
-            ssh_icon: ["rofi", "-show", "ssh"],
-        }
-        cmd = actions.get(sub)
-        if cmd:
-            run_cmd(cmd)
+    if selected == "Bluetooth":
+        run_cmd([os.path.expanduser("~/.config/rofi/scripts/bluetooth")])
 
-    elif selected == app_icon:
+    elif selected == "Apps":
         sub = show_rofi(APPLICATIONS, theme="apps")
         if not sub:
             return
@@ -69,10 +76,16 @@ def main():
         if cmd:
             run_cmd(cmd)
 
-    elif selected == nts_icon:
+    elif selected == "Add a todo":
         run_cmd([os.path.expanduser("~/.config/rofi/scripts/notes")])
 
-    elif selected == pwr_icon:
+    elif selected == "SSH":
+        run_cmd(["rofi", "-show", "ssh"])
+
+    elif selected == "VPN":
+        run_cmd([os.path.expanduser("~/.config/rofi/scripts/vpn")])
+
+    elif selected == "Power":
         run_cmd([os.path.expanduser("~/.config/rofi/scripts/power-sway")])
 
 

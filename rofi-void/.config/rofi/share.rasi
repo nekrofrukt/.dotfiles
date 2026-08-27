@@ -28,7 +28,7 @@ configuration {
   }
 
   ssh {
-    display-name: "";
+    display-name: "󰒍";
   }
 
   run {
