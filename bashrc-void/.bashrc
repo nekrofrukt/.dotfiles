@@ -34,8 +34,6 @@ alias xr='sudo xbps-remove'
 alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 alias fu='flatpak update'
 
-alias auto-vkpurge='sudo vkpurge rm all'
-
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'
 alias suspend='loginctl suspend'

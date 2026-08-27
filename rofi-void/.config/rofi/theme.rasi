@@ -11,6 +11,7 @@ mainbox {
 
 inputbar {
   background-color: transparent;
+  padding: 12px 12px 8px 12px;
   children: [prompt, entry];
 }
 

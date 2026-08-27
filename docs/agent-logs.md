@@ -15,6 +15,11 @@ Log entries from each working session, newest on top.
 - Final state: transparent inputbar, `@bg-alt` background on selected element, horizontal listview padding for gutters (`0 10px 10px 10px` — no top padding), taller elements, 200px drun width.
 - Net: ~48 lines removed across 4 files, one file deleted.
 
+## Kernel cleanup hook + obsidian icon fix (2026-08-27)
+
+- Created `/etc/kernel.d/post-install/99-purge-old-kernels` hook — runs `vkpurge rm all` automatically after every kernel update via xbps-triggers. Runs as root, no sudo needed. Completed the TODO from Aug 20 boot cleanup session.
+- Obsidian icon not showing: template installed `resources/icon.png` to `/usr/share/pixmaps/` which has no theme index. Many launchers skip pixmaps. Fix: install to `/usr/share/icons/hicolor/48x48/apps/obsidian.png` instead. Also: `vinstall` doesn't rename files (always uses source basename), so had to use `install -m 644` instead. Rebuilt and confirmed working.
+
 ## Starship hostname: Catppuccin peach + conditional space (2026-08-24)
 
 - `[hostname]` in `starship/.config/starship.toml`: added `style = "#fab387"` (Catppuccin Mocha peach — foot theme confirmed via `include = /usr/share/foot/themes/catppuccin-mocha`) and moved the trailing space inside the module format (`format = "[$hostname]($style) "`), so it appears only when the module does (ssh_only=true already set).
