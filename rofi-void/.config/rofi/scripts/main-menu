@@ -23,7 +23,7 @@ MENU_ITEMS: List[Tuple[str, str]] = [
     ("Apps", app_glyph),
     ("Add a todo", todo_glyph),
     ("SSH", ssh_glyph),
-    ("VPN", vpn_glyph),
+    ("WireGuard", vpn_glyph),
     ("Power", pwr_glyph),
 ]
 
@@ -37,11 +37,12 @@ def row(label: str, glyph: str = None) -> str:
 def show_rofi(options: List[str], theme: str = None, prompt: str = "", mesg: str = "") -> str:
     menu = "\n".join(options)
     cmd = [
-        "rofi", "-dmenu", "-normal-window", "-show-icons", "true", "-i",
+        "rofi", "-dmenu", "-normal-window", "-i",
     ]
     if theme:
         cmd.extend(["-theme", os.path.expanduser(f"~/.config/rofi/styles/{theme}.rasi")])
     else:
+        cmd.extend(["-show-icons", "true"])
         cmd.extend(["-theme-str", "element-icon { size: 24px; padding: 6px 10px; }"])
     if prompt:
         cmd.extend(["-p", prompt])
@@ -82,7 +83,7 @@ def main():
     elif selected == "SSH":
         run_cmd(["rofi", "-show", "ssh"])
 
-    elif selected == "VPN":
+    elif selected == "WireGuard":
         run_cmd([os.path.expanduser("~/.config/rofi/scripts/vpn")])
 
     elif selected == "Power":
