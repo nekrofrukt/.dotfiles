@@ -1,59 +1,22 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
-
-  "display": {
-    "separator": " "
-  },
-
-  "logo": {
-      "type": "auto",
-      "padding": {
-          "top": 1,
-          "bottom": 0,
-          "left": 1,
-          "right": 5
-      }
-  },
-
-    /*"logo": {
-        "position": "top",
-        "type": "file",
-        "source": "~/.config/fastfetch/logo/arch01.txt",
-        "padding": {
-            "top": 0,
-            "bottom": 4,
-            "left": 0,
-            "right": 0
-        }, 
-        "color": {
-            "1": "blue",
-            "2": "green"
-        }
-    },*/
-
   "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "packages",
+    "shell",
+    "wm",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "swap",
+    "disk",
     "break",
-    //{"key": "we are all none. </3", "type": "custom"},
-    //{"key": " →", "type": "title", "format": "{#36}{#1}{user-name}@{host-name}{#}"},
-    //"break",
-    {"key": " OS ------ →", "type": "os"},
-    {"key": "󰒓 Kernel -- →", "type": "kernel"},
-    {"key": " Age ----- →", "type": "command", "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"},
-    "break",
-    //{"key": "󰇄 DE        →", "type": "de"},
-    {"key": "󰧨 WM ------ →", "type": "wm"},
-    {"key": " PKG ----- →", "type": "packages"},
-    {"key": " Term ---- →", "type": "terminal"},
-    {"key": " Shell --- →", "type": "shell"},
-	{"key": "󰏘 HEX ----- → {#38}󰊠{#keys} {#37}󰊠{#keys} {#36}󰊠{#keys} {#35}󰊠{#keys} {#34}󰊠{#keys} {#33}󰊠{#keys} {#32}󰊠{#keys} {#31}󰊠{#keys}", "type": "custom"},
-    "break",
-    {"key": " Host ---- →", "type": "host"},
-    {"key": " CPU ----- →", "type": "cpu"},
-    {"key": " GPU ----- →", "type": "gpu"},
-    {"key": " RAM ----- →", "type": "memory"},
-    {"key": "󱑒 Uptime -- →", "type": "uptime"},
-    "break"
-	//{"key": "{#35}{#keys}", "type": "colors", "symbol": "circle"}
-
+    "colors"
   ]
 }
