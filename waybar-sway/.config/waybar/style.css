@@ -120,6 +120,6 @@ button:hover {
 #network {
     color: @bg;
     padding: 0 16px 0 6px; }
-#network.ethernet { color: @grn; }
+#network.ethernet { color: @fg; }
 #network.wifi { color: @blu; }
 #network.disconnected { color: @red; }
