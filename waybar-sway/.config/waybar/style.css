@@ -76,7 +76,7 @@ button:hover {
 }
 
 #window {
-    color: @blu;
+    color: @fg;
     padding: 0px 0px 0px 16px;
 }
 
@@ -120,6 +120,6 @@ button:hover {
 #network {
     color: @bg;
     padding: 0 16px 0 6px; }
-#network.ethernet { color: @blu; }
+#network.ethernet { color: @grn; }
 #network.wifi { color: @blu; }
 #network.disconnected { color: @red; }

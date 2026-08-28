@@ -2,6 +2,17 @@
 
 Log entries from each working session, newest on top.
 
+## TODO: kernel purge runs at wrong time — old initramfs never cleaned (2026-08-28)
+
+- **Symptom:** after updating kernel 6.18.45 → 6.18.47, the automated purge left `6.18.45_1` fully intact on disk (vmlinuz/config/initramfs.img + `/usr/lib/modules/6.18.45_1`) — an outdated initramfs persists forever.
+- **Root cause (confirmed from `/usr/bin/vkpurge` source):** the `99-purge-old-kernels` hook in `/etc/kernel.d/post-install/` runs `vkpurge rm all` at kernel **post-install** time — i.e. still booted into the **old** kernel. `vkpurge`'s `list_kernels()` always skips `uname -r` (the running kernel), so the kernel that was just superseded is never removed. Every update leaves one orphaned kernel; it only clears after a manual `sudo vkpurge rm <old>` following a reboot into the new kernel.
+- **Correct behavior confirmed:** `vkpurge` correctly protects both the running kernel and kernels owned by *installed* packages (that's why the user's manually-installed LTS `6.12.106_1` is safe).
+- **Planned fix (deferred, too complex for the moment):** move the purge from the install-time post-install hook to a runit service that runs **once per boot**, when `uname -r` is the new kernel:
+  - Create `/etc/sv/kernel-purge/run`: `vkpurge rm all`, then take the service down so it doesn't linger (`sv down .`, then `exit 0`) — no `chpst -b ... pause`, since user does NOT want a paused process around after boot.
+  - Enable via `/var/service/` symlink (the user's convention, = runsvdir dir).
+  - Remove the now-pointless `/etc/kernel.d/post-install/99-purge-old-kernels`.
+  - Caveat researched: a bare `run` that exits WILL be respawned in a loop (per `man runsv`: "If ./run exits ... runsv restarts ./run"), so the service must explicitly `sv down .` / use a `down`-file to run exactly once per boot.
+
 ## Rofi main-menu → flat drun-style menu + icon slot glyphs (2026-08-27)
 
 - Flattened `rofi-void/.config/rofi/scripts/main-menu` from a nested menu (Utilities/Apps/Power submenus) into a top-level flat list: Bluetooth, Apps, Add a todo, SSH, VPN, Power.
