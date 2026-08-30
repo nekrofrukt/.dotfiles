@@ -139,8 +139,8 @@
           "▮▮▮▮▮▮▮▪▪",
           "▮▮▮▮▮▮▮▮▪",
           "▮▮▮▮▮▮▮▮▮"
-        ]
-        /*"on-click": "pavucontrol"*/
+        ],
+        "on-click": "pavucontrol"
     },
 
     "battery": {
@@ -190,12 +190,14 @@
     "custom/hey": {
         "exec-if": "~/.config/waybar/scripts/hey.sh > /dev/null 2>&1",
         "exec": "~/.config/waybar/scripts/hey.sh",
+        "tooltip-format": "You've got mail!",
         "interval": 60,
         "return-type": "json"
     },
 
     "custom/kernel": {
         "format": "{}",
+        "tooltip-format": "Kernel: {}",
         "exec": "uname -r",
         "interval": 3600
     }
