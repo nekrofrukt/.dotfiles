@@ -2,6 +2,15 @@
 
 Log entries from each working session, newest on top.
 
+## hey-cli dropped from xbps-src; install to be handled separately (2026-08-30)
+
+- **Decision:** NOT handling hey-cli via xbps-src, unlike brave-origin and obsidian — its `go.mod` floor (1.26.6) will keep out-pacing Void's Go package (1.26.5 as of now), and hey-cli has no GitHub releases (tags only), so the update script can't track it.
+- Removed `srcpkgs/hey-cli/` template from void-packages (was untracked local artifact — the doomed build attempt is superseded).
+- hey-cli was NEVER added to `scripts/void/xbps/packages.conf` → update script was never tracking it; nothing to remove there.
+- Cleaned `docs/void/xbps-src.md`: dropped the BUILD-BLOCKED bullet, simplified the masterdir note, removed hey-cli from the custom-templates-conflict gotcha, generalized the Go-version gotcha.
+- The waybar `custom/hey` module (and `custom/vpn`/`nordvpn`) stay as-is — they'll start working once hey-cli is installed standalone.
+- **TODO (deferred):** decide standalone install method (e.g. `go install` with `GOTOOLCHAIN=auto`, or a built binary in `~/.local/bin`) and actually get hey installed so the waybar module goes live.
+
 ## TODO: kernel purge runs at wrong time — old initramfs never cleaned (2026-08-28)
 
 - **Symptom:** after updating kernel 6.18.45 → 6.18.47, the automated purge left `6.18.45_1` fully intact on disk (vmlinuz/config/initramfs.img + `/usr/lib/modules/6.18.45_1`) — an outdated initramfs persists forever.

@@ -4,13 +4,12 @@ Persistent state for the xbps-src build system. Read at session start for contex
 
 ## Current state
 
-- **masterdir**: EXISTS (re-bootstrapped for hey-cli build attempt)
+- **masterdir**: EXISTS
 - **etc/conf**: does not exist — `XBPS_ALLOW_RESTRICTED=yes` not persisted (pass as env var when needed)
 - **Built packages** (in `hostdir/binpkgs/`):
   - `brave-origin` 1.93.137 (nonfree, restricted=yes)
   - `obsidian` 1.13.7
 - **packages.conf** (for update script): obsidian, brave-origin
-- **hey-cli**: template created at `srcpkgs/hey-cli/template`, BUILD BLOCKED — requires Go 1.26.6, Void has 1.26.5. Waiting for Go update in xbps repos.
 
 ## Workflow
 
@@ -48,7 +47,7 @@ Restricted packages need `XBPS_ALLOW_RESTRICTED=yes`.
 ## Gotchas
 
 - `masterdir` is a full chroot — gets purged to save disk space. Re-bootstrap is normal.
-- After `git pull` in void-packages, custom templates (brave-origin, obsidian, hey-cli) may conflict — stash or rebase.
+- After `git pull` in void-packages, custom templates (brave-origin, obsidian) may conflict — stash or rebase.
 - `restricted=yes` in template + `XBPS_ALLOW_RESTRICTED=yes` required for nonfree packages.
 - Built `.xbps` files persist in `hostdir/binpkgs/` even after masterdir is cleaned.
-- Go version in xbps-src chroot may differ from what a package's `go.mod` requires — check `srcpkgs/go/template` version. hey-cli needs 1.26.6, Void has 1.26.5.
+- Go version in xbps-src chroot may differ from what a package's `go.mod` requires — check `srcpkgs/go/template` version.
