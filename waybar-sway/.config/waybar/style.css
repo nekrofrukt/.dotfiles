@@ -1,4 +1,4 @@
-@define-color bg    #1e1e2e;
+/*@define-color bg    #1e1e2e;
 @define-color fg    #cdd6f4;
 @define-color blk   #32344a;
 @define-color red   #f7768e;
@@ -10,6 +10,21 @@
 @define-color org   #ff9e64;
 @define-color void  #62b086;
 @define-color brblk #444b6a;
+@define-color white #ffffff;*/
+
+@define-color bg    #1e1e2e;
+@define-color bg2   #252525;
+@define-color fg    #cccccc;
+@define-color acc   #62b086;
+@define-color blk   #295340;
+@define-color red   #e07a7a;
+@define-color grn   #478061;
+@define-color ylw   #c9a05e;
+@define-color blu   #6a8ba6;
+@define-color mag   #9b7fae;
+@define-color cyn   #5f9a8f;
+@define-color org   #c97f5e;
+@define-color brblk #2c2c2c;
 @define-color white #ffffff;
 
 /* TOKYONIGHT
@@ -76,7 +91,7 @@ button:hover {
 }
 
 #window {
-    color: @blu;
+    color: @acc;
     padding: 0px 0px 0px 16px;
 }
 
@@ -98,6 +113,10 @@ button:hover {
 #pulseaudio {
     padding-left: 6px;
     padding-right: 6px;
+}
+
+#custom-vpn {
+    color: @fg;
 }
 
 #custom-spotify {
