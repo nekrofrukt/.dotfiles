@@ -2,6 +2,24 @@
 
 Log entries from each working session, newest on top.
 
+## Nautilus font → JetBrainsMono Nerd Font Mono; root cause was dconf, not settings.ini (2026-08-31)
+
+- **Goal:** set the Nautilus (GTK4 file manager) font to JetBrains. Nautilus has no per-app font setting — it follows the global GTK font.
+- **Red herring #1 (family name):** `gtk-font-name=JetBrains Mono 12` did nothing because `JetBrains Mono` isn't an installed family — fonts are Nerd Font variants (`JetBrainsMono Nerd Font` / `JetBrainsMono Nerd Font Mono` / aliases `NF`/`NFM`). `fc-match "JetBrains Mono"` fell back to **DejaVu Sans**. Correct family is `JetBrainsMono Nerd Font Mono`. (Note: `fc-match` needs `:size=` syntax; bare `"... 12"` in the string still matched fallback.)
+- **Red herring #2 (settings.ini):** even with the corrected `gtk-font-name=JetBrainsMono Nerd Font Mono 12` in `~/.dotfiles/gtk-4.0/.config/gtk-4.0/settings.ini`, Nautilus still showed no change.
+- **Root cause (confirmed):** under sway/Void, GTK4 Nautilus reads the interface font from **gsettings/dconf** `org.gnome.desktop.interface::font-name`, NOT from `settings.ini`. The running `xdg-desktop-portal-gnome` + `dconf-service` back it. The dconf value was still the default `'Adwaita Sans 11'` → resolved to DejaVu Sans. GTK4's settings backend gives the dconf key precedence over `gtk-font-name` in `settings.ini`.
+- **Fix (manual, applied by user):** `gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font Mono 12'`. Confirmed now reads `'JetBrainsMono Nerd Font Mono 12'`. `monospace-font-name` left at fallback.
+- **Persistence caveat:** `gsettings set` writes to the binary dconf db (`~/.config/dconf/user`) — machine-local, NOT stowed/git-tracked. Persists across reboots on this box but will NOT reproduce on a fresh machine from dotfiles. `gtk-font-name` line kept in stowed `settings.ini` (correct source of truth for GTK3 / non-dconf fallback, just not sufficient for GTK4 here). Possible future: capture the gsettings set in a `scripts/` setup snippet for reproducibility.
+
+## herdr binary moved out of stowed dotfiles bin; not tracked in git (2026-08-31)
+
+- **Problem:** `~/.local/bin` was a whole-directory symlink → `~/.dotfiles/bin/.local/bin`, so the whole stow source dir was forced onto PATH with no coexistence. The 22.7MB self-updating `herdr` binary physically lived in the stow tree and was git-tracked (`bin/.local/bin/herdr`).
+- **Restructure (pattern mirrors `opencode/` package):** broke the dir symlink; `~/.local/bin` is now a real directory. The user's own scripts (`btw`, `git-init`, `push-to-git`) are stowed as **individual symlinks** into it; `herdr` now lives as a real file in `~/.local/bin` outside git/dotfiles. Confirmed via `stow -nvv bin` (all 3 scripts already correctly linked; nothing pending).
+- **git:** binary removed from repo in commit `f641cd0 "cleaned up bin"`. The herdr **config** `herdr/.config/herdr/config.toml` remains tracked (that's the legitimate dotfile).
+- **History/size analysis:** the herdr blob (`71fc24f`, 22.7MB uncompressed, ~8MB packed) still lingers in old commits `9f3cab9` (added) & `f641cd0`. `.git` is ~70MB total, but the bulk is **wallpapers** committed in the initial commit `d22c276` (`walls/silenthill*.jpg` ~9.5MB/8.3MB, `night01.jpg` 9.0MB, `ascii01.png` 6.7MB, `flowers01.jpg` 6.2MB, etc.) — not herdr.
+- **Decision:** **no history rewrite / no force-push.** herdr's ~8MB of historical dead weight is acceptable given wallpapers (which must be kept) dominate repo size anyway; force-pushing would rewrite 17+ commit SHAs and invalidate other clones for negligible gain. `~8MB is fine` per user.
+- **Outcome:** herdr is untracked and out of the stow tree going forward; its 8MB stays only as unreferenced-by-current-tree history (reclaimable later only via `git filter-repo`/`filter-branch` + `gc` if the user ever wants it).
+
 ## hey-cli dropped from xbps-src; install to be handled separately (2026-08-30)
 
 - **Decision:** NOT handling hey-cli via xbps-src, unlike brave-origin and obsidian — its `go.mod` floor (1.26.6) will keep out-pacing Void's Go package (1.26.5 as of now), and hey-cli has no GitHub releases (tags only), so the update script can't track it.
