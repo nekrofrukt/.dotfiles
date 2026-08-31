@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo -e " "
+echo -e "\e[1mVoid base configuration.\e[0m"
+echo -e "\e[1m------------------------\e[0m"
+
+read -p "Start installation? (y/N): " confirm
+[[ "$confirm" != "y" ]] && exit 1
+
+echo -e "\e[1mUpdating system.\e[0m"
+echo -e "\e[1m---\e[0m"
+
+sudo xbps-install -Syu
+sudo xbps-install -S void-repo-nonfree
+sudo xbps-install -Syu
+
+sudo xbps-install -S intel-ucode
+sudo xbps-reconfigure -f linux
+
+sudo reboot
+
