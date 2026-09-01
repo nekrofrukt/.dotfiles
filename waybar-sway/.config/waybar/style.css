@@ -1,40 +1,9 @@
-/*@define-color bg    #1e1e2e;
-@define-color fg    #cdd6f4;
-@define-color blk   #32344a;
-@define-color red   #f7768e;
-@define-color grn   #a6e3a1;
-@define-color ylw   #e0af68;
-@define-color blu   #7aa2f7;
-@define-color mag   #ad8ee6;
-@define-color cyn   #0db9d7;
-@define-color org   #ff9e64;
-@define-color void  #62b086;
-@define-color brblk #444b6a;
-@define-color white #ffffff;*/
-
 @define-color bg    #1e1e2e;
-@define-color bg2   #252525;
-@define-color fg    #cccccc;
-@define-color acc   #62b086;
-@define-color blk   #295340;
-@define-color red   #e07a7a;
-@define-color grn   #478061;
-@define-color ylw   #c9a05e;
-@define-color blu   #6a8ba6;
-@define-color mag   #9b7fae;
-@define-color cyn   #5f9a8f;
-@define-color org   #c97f5e;
-@define-color brblk #2c2c2c;
-@define-color white #ffffff;
-
-/* TOKYONIGHT
-@define-color bg    #1a1b26;
-@define-color bg2   #333333;
-@define-color fg    #a9b1d6;
-@define-color fg2   #87afb1;
+@define-color fg    #cdd6f4;
+@define-color acc   #7aa2f7;
 @define-color blk   #32344a;
 @define-color red   #f7768e;
-@define-color grn   #9ece6a;
+@define-color grn   #62b086;
 @define-color ylw   #e0af68;
 @define-color blu   #7aa2f7;
 @define-color mag   #ad8ee6;
@@ -42,7 +11,7 @@
 @define-color org   #ff9e64;
 @define-color brblk #444b6a;
 @define-color white #ffffff;
-*/
+
 
 * {
     font-family: "JetBrains Mono Nerd Font", monospace; font-size: 16px; font-weight: 600; }
@@ -139,6 +108,6 @@ button:hover {
 #network {
     color: @bg;
     padding: 0 16px 0 6px; }
-#network.ethernet { color: @blu; }
+#network.ethernet { color: @acc; }
 #network.wifi { color: @blu; }
 #network.disconnected { color: @red; }
