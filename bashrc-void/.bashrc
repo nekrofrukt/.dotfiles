@@ -35,8 +35,6 @@ alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 alias fu='flatpak update'
 alias update-system='echo " "; echo "Syncing remote repo index and updating all packages."; echo "---"; sudo xbps-install -Su; echo " "; echo "Updating local xbps-src repo."; echo "---"; ~/.dotfiles/scripts/void/xbps/update-xbps-src; echo " "; echo "Updating Flatpaks."; echo "---"; flatpak update'
 
-alias upgrade='echo "Upgrading apt packages."; echo "---"; sudo apt upgrade -y; echo " "; echo "Upgrading Homebrew packages."; echo "---"; brew upgrade'
-
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'
 alias suspend='loginctl suspend'
