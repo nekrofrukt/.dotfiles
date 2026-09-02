@@ -10,6 +10,12 @@ esac
 
 export PATH="$HOME/.local/bin:$PATH"
 
+if [ -f /var/log/update-check.log ]; then
+  echo "--- Last update check ---"
+  cat /var/log/update-check.log
+  echo
+fi
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
