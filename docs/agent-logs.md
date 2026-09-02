@@ -2,6 +2,23 @@
 
 Log entries from each working session, newest on top.
 
+## Keyboard repeat delay — GVariant type annotation required for gsettings (2026-09-02)
+
+- **Platform:** Fedora Silverblue, GNOME Wayland, Mutter compositor.
+- **Goal:** set initial key repeat delay to 250ms and repeat-interval to 30ms (schema default is 500ms delay).
+- **Root cause:** `dconf write /org/gnome/desktop/peripherals/keyboard/delay 250` stores a **plain integer** (`delay=250`). GSettings expects a **typed GVariant** (`delay=uint32 250`). Without the type annotation, `gsettings get` falls back to the schema default (500) even though `dconf read` shows the correct value. Same applies to `repeat-interval`.
+- **Diagnosis path:** ruled out (1) system dconf DB overrides — `strings`/`dconf dump` on all compiled DBs (`distro` 723B, `ibus` 5547B, `local`, `site`) found nothing keyboard-related; (2) lock files — `distro.d/locks/20-authselect` only locks GNOME login-screen auth keys; (3) `gsd-keyboard` — running but logged non-fatal `g_variant_unref` warning; (4) `dconf update` — recompiled DBs, no change.
+- **Fix:** reset the broken plain-integer values, then rewrite with `uint32` prefix:
+  ```bash
+  dconf reset /org/gnome/desktop/peripherals/keyboard/delay
+  dconf reset /org/gnome/desktop/peripherals/keyboard/repeat-interval
+  dconf write /org/gnome/desktop/peripherals/keyboard/delay "uint32 250"
+  dconf write /org/gnome/desktop/peripherals/keyboard/repeat-interval "uint32 30"
+  ```
+  Verify: `gsettings get org.gnome.desktop.peripherals.keyboard delay` → `uint32 250`. Log out/in for mutter to pick up.
+- **Reference:** [GNOME Discourse #33040](https://discourse.gnome.org/t/gsettings-do-not-work/33040) — identical issue on Nobara (Dec 2025); [NixOS Discourse #25040](https://discourse.nixos.org/t/set-keyboard-repeat-in-gnome-wayland-with-home-manager/25040) — same uint32 vs plain integer mismatch with NixOS dconf.
+- **Persistence caveat:** dconf is machine-local (`~/.config/dconf/user`), NOT stowed/git-tracked. Same caveat as the Nautilus font fix. For reproducibility on fresh machines, a `scripts/` snippet with the typed `dconf write` commands would be needed.
+
 ## Nautilus font → JetBrainsMono Nerd Font Mono; root cause was dconf, not settings.ini (2026-08-31)
 
 - **Goal:** set the Nautilus (GTK4 file manager) font to JetBrains. Nautilus has no per-app font setting — it follows the global GTK font.
