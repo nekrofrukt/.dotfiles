@@ -9,10 +9,13 @@ case $- in
 esac
 
 export PATH="$HOME/.local/bin:$PATH"
-
 if [ -f /var/log/update-check.log ]; then
   echo "--- Last update check ---"
-  cat /var/log/update-check.log
+  if grep -qv "Listing..." /var/log/update-check.log; then
+    cat /var/log/update-check.log
+  else
+    echo "No new upgrades available."
+  fi
   echo
 fi
 
