@@ -35,6 +35,8 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
+alias update='echo " "; echo "Updating Flatpak"; echo "----------------"; flatpak update; echo " "; echo " "; echo "Updating/upgrading Homebrew"; echo "---------------------------"; brew update; brew upgrade'
+
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
