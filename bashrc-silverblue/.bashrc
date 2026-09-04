@@ -41,5 +41,6 @@ alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
 alias oc='opencode'
+alias mail='hey hey'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'

@@ -2,6 +2,23 @@
 
 Log entries from each working session, newest on top.
 
+## HEY email desktop notifications for GNOME (2026-09-04)
+
+- **Platform:** Fedora Silverblue, GNOME Wayland.
+- **Goal:** desktop notifications for new HEY emails via the `hey` CLI, with clickable action to open `hey tui`.
+- **Script:** `~/.local/bin/hey-notify.sh` (copy in `~/.dotfiles/scripts/GNOME/notifications/`).
+- **How it works:** `hey watch --box imbox --events added --json` streams new postings as JSON. The script parses `posting.name` (subject) and `posting.alternative_sender_name` (sender) directly from the watch output — no extra `hey thread read` API call needed. Each notification is sent via `notify-send -A "default=Open"`, which blocks until clicked/dismissed. Clicking "Open" opens `ptyxis --new-window -- hey tui`.
+- **Stacking:** no lock file, notifications stack freely. Each new email gets its own notification with subject + sender.
+- **Dedup on restart:** timestamps saved to `~/.cache/hey-notify-last-start`. On restart, `hey watch --since <timestamp>` skips already-notified emails.
+- **systemd service:** `~/.config/systemd/user/hey-mail.service` — user-level, no `rpm-ostree` layering needed. Enabled and started via `systemctl --user enable --now hey-mail.service`.
+
+### Issues encountered
+
+- **`--events new` never fires for self-sent emails:** HEY marks self-sent as `"new":false`. Fixed by switching to `--events added` which fires on any new posting regardless of seen/muted state.
+- **`hey thread read --quiet` unwraps the data array:** output is `.[0]` not `.data[0]`. Initially caused "Unknown" sender/subject. Fixed by parsing directly from the watch JSON's `posting` field instead — no separate API call needed.
+- **`notify-send` arg order:** flags (`-a`, `-i`, `-A`) must come before `--` and the positional summary/body args. Values starting with `--` (e.g. `"-- Christian Grimberg"`) were interpreted as flags. Fixed with `--` separator before text args.
+- **Click opens wrong email:** multiple `hey tui --topic` instances raced, first one won regardless of which notification was clicked. Simplified to just open `hey tui` inbox on any click.
+
 ## Keyboard repeat delay — GVariant type annotation required for gsettings (2026-09-02)
 
 - **Platform:** Fedora Silverblue, GNOME Wayland, Mutter compositor.
