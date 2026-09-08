@@ -1,5 +1,7 @@
 [settings]
 jobs = 8   # installs run concurrently (default is 8)
+auto_update = true
+#auto_update_check_duration = "1d"
 
 [tools]
 fastfetch   = "latest"

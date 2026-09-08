@@ -35,7 +35,7 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
-alias update='mise upgrade; mise prune; echo "---"; mise bootstrap packages apply --yes; flatpak update'
+alias update='mise upgrade; mise prune; mise bootstrap packages apply --yes; echo "---"; flatpak update'
 alias flatpak-bootstrap='mise bootstrap packages apply'
 
 alias nv='nvim'
