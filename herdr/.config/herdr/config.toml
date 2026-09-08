@@ -9,5 +9,10 @@ previous_tab = ["prefix+p", "shift+left"]
 split_vertical = ["prefix+v", "prefix+%"]        # side-by-side
 split_horizontal = ["prefix+minus", 'prefix+"']  # stacked
 
+# tmux-style detach, session list, settings
+detach = "prefix+d"
+goto = "prefix+s"
+settings = "prefix+q"
+
 [ui]
 agent_panel_sort = "spaces"

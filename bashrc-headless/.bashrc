@@ -26,12 +26,6 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
-alias update='echo "Updating apt repos."; echo "---"; sudo apt update; echo " "'
-alias upgrade='echo "Upgrading apt packages."; echo "---"; sudo apt upgrade -y; echo " "'
-
-alias nv='nvim'
-alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
-
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
 
 # don't put duplicate lines or lines starting with space in the history.

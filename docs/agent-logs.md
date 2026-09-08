@@ -2,6 +2,16 @@
 
 Log entries from each working session, newest on top.
 
+## herdr keybinds: tmux-style detach/session/settings (2026-09-08)
+
+- **Platform:** Fedora Silverblue.
+- **Goal:** keep herdr usable as a tmux fallback, so keybinds mirror tmux defaults.
+- **Changes** in `herdr/.config/herdr/config.toml` under `[keys]`:
+  - `detach = "prefix+d"` (was `prefix+q`)
+  - `goto = "prefix+s"` (workspace/session list; was `prefix+w`)
+  - `settings = "prefix+q"` (was `prefix+s`)
+- `prefix+w` (workspace picker) is now free/unbound. Split keys, `prefix+n`/`p`, and `shift+arrows` already mirrored tmux.
+
 ## HEY email desktop notifications for GNOME (2026-09-04)
 
 - **Platform:** Fedora Silverblue, GNOME Wayland.
