@@ -24,7 +24,7 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+eval "$(mise activate bash)"
 eval "$(starship init bash)"
 eval "$(fzf --bash)"
 
@@ -35,7 +35,8 @@ alias la='ls -a'
 alias ll='ls -lah'
 alias tree='tree -a'
 
-alias update='echo " "; echo "Updating Flatpak"; echo "----------------"; flatpak update; echo " "; echo " "; echo "Updating/upgrading Homebrew"; echo "---------------------------"; brew update; brew upgrade'
+alias update='mise upgrade; echo "---"; mise bootstrap packages apply --yes; flatpak update'
+alias flatpak-bootstrap='mise bootstrap packages apply'
 
 alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'

@@ -1,0 +1,41 @@
+[settings]
+jobs = 8   # installs run concurrently (default is 8)
+
+[tools]
+fastfetch   = "latest"
+fd          = "latest"
+fzf         = "latest"
+herdr       = "latest"
+hey-cli     = "latest"
+neovim      = "latest"
+opencode    = "latest"
+ripgrep     = "latest"
+starship    = "latest"
+
+[bootstrap.packages]
+"flatpak:com.brave.Browser"           = "latest"
+"flatpak:com.discordapp.Discord"      = "latest"
+"flatpak:com.dropbox.Client"          = "latest"
+"flatpak:com.ktechpit.whatsie"        = "latest"
+"flatpak:com.onepassword.OnePassword" = "latest"
+"flatpak:com.spotify.Client"          = "latest"
+"flatpak:md.obsidian.Obsidian"        = "latest"
+"flatpak:org.videolan.VLC"            = "latest"
+"flatpak:org.nicotine_plus.Nicotine"  = "latest"
+
+# --- Non-declarative bits: hooks ------------------------------------------
+# post-tools: runs after mise installs [tools]. Kept idempotent so it's safe
+# to re-run mise bootstrap.
+#
+# JetBrainsMono Nerd Font — fonts can't be a flatpak here and mise can't
+# manage fonts, so install it once into the user font dir. All prereqs
+# (curl, unzip, fc-cache) are present in the Silverblue base image.
+[bootstrap.hooks.post-tools]
+run = '''
+JB=~/.local/share/fonts/JetBrainsMonoNerdFont-Regular.ttf
+if [ ! -f "$JB" ]; then
+  curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip -o /tmp/JB.zip
+  unzip -oq /tmp/JB.zip -d ~/.local/share/fonts && rm /tmp/JB.zip
+  fc-cache -f
+fi
+'''
