@@ -13,6 +13,8 @@ neovim      = "latest"
 opencode    = "latest"
 ripgrep     = "latest"
 starship    = "latest"
+# lang servers
+lua-language-server = "latest"
 
 [bootstrap.packages]
 "flatpak:com.brave.Browser"           = "latest"
