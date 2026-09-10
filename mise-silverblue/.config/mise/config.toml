@@ -13,6 +13,7 @@ neovim      = "latest"
 opencode    = "latest"
 ripgrep     = "latest"
 starship    = "latest"
+yazi        = "latest"
 # lang servers
 lua-language-server = "latest"
 
