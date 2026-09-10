@@ -5,10 +5,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-eval "$(starship init bash)"
-eval "$(fzf --bash)"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
+
+eval "$(mise activate bash)"
+eval "$(starship init bash)"
+eval "$(fzf --bash)"
 
 # SSH agent via keychain
 eval $(keychain -q --eval --noask id_ed25519)
@@ -35,6 +37,7 @@ alias xr='sudo xbps-remove'
 alias xu-src='~/.dotfiles/scripts/void/xbps/update-xbps-src'
 alias fu='flatpak update'
 alias update-system='echo " "; echo "Syncing remote repo index and updating all packages."; echo "---"; sudo xbps-install -Su; echo " "; echo "Updating local xbps-src repo."; echo "---"; ~/.dotfiles/scripts/void/xbps/update-xbps-src; echo " "; echo "Updating Flatpaks."; echo "---"; flatpak update'
+alias xm-upgrade='mise upgrade; mise prune; mise bootstrap packages apply --yes; echo "---"; flatpak update'
 
 alias shutdown='loginctl poweroff'
 alias reboot='loginctl reboot'

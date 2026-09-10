@@ -1,0 +1,24 @@
+[settings]
+jobs = 8   # installs run concurrently (default is 8)
+auto_update = true
+#auto_update_check_duration = "1d"
+
+[tools]
+hey-cli     = "latest"
+# lang servers
+lua-language-server = "latest"
+
+[bootstrap.packages]
+"flatpak:com.discordapp.Discord"      = "latest"
+"flatpak:com.ktechpit.whatsie"        = "latest"
+
+# --- Non-declarative bits: hooks ------------------------------------------
+# post-tools: runs after mise installs [tools]. Kept idempotent so it's safe
+# to re-run mise bootstrap.
+#
+# JetBrainsMono Nerd Font — fonts can't be a flatpak here and mise can't
+# manage fonts, so install it once into the user font dir. All prereqs
+# (curl, unzip, fc-cache) are present in the Silverblue base image.
+[bootstrap.hooks.post-tools]
+run = '''
+'''
