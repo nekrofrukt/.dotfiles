@@ -27,6 +27,7 @@ alias ll='ls -lah'
 alias tree='tree -a'
 
 alias lnk='sudo ln -s'
+alias purge-kernels='sudo vkpurge rm all'
 
 alias xi='sudo xbps-install'
 alias xq='xbps-query'
@@ -43,6 +44,5 @@ alias nv='nvim'
 alias nvo='nvim -o `fzf --height 30% --layout reverse --preview '\''less {}'\''`'
 
 alias oc='opencode'
-alias ocd='cd; cd .dotfiles; opencode'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
