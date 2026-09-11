@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Propagate hey failures so systemd can restart the watcher.
+set -o pipefail
+
 #
 # hey-notify.sh — HEY email desktop notifications for GNOME
 #
@@ -21,6 +24,7 @@
 #
 #      [Service]
 #      Type=simple
+#      Environment="PATH=%h/.local/share/mise/installs/hey-cli/latest:%h/.local/bin:/usr/local/bin:/usr/bin:/bin"
 #      ExecStart=%h/.local/bin/hey-notify.sh
 #      Restart=on-failure
 #      RestartSec=10

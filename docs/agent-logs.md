@@ -2,6 +2,12 @@
 
 Log entries from each working session, newest on top.
 
+## HEY notification service recovery (2026-09-11)
+
+- Updated `scripts/GNOME/hey-notify.sh` with `set -o pipefail` so a failed `hey watch` process is visible to systemd and can trigger `Restart=on-failure`.
+- Documented the explicit mise-based `PATH` required by `hey-mail.service`.
+- Applied the matching runtime fixes to `~/.local/bin/hey-notify.sh` and `~/.config/systemd/user/hey-mail.service`; the service was reloaded, restarted, and verified active.
+
 ## herdr keybinds: tmux-style detach/session/settings (2026-09-08)
 
 - **Platform:** Fedora Silverblue.
@@ -378,7 +384,6 @@ Log entries from each working session, newest on top.
 - Brave sync is the source of truth, NOT the local profile — keep the 24-word recovery code; extension data/settings won't sync and reset on fresh install.
 - Updates: Brave is the only truly manual app (1Password/Dropbox self-update). Brave loop: git pull template → `./xbps-src pkg brave-bin` → install from hostdir/binpkgs. ~~OPEN ITEM: pick (a) `bup()` bashrc function, (b) manual check during weekly `-Syu`, or (c) weekly cron — decide during migration.~~ Done — update-xbps-src script + packages.conf handles this.
 - I wrote `~/.local/bin/update-local-pkgs` once; user planned to remove it. Don't recreate unless asked.
-
 
 
 
