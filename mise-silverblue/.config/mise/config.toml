@@ -14,8 +14,10 @@ opencode    = "latest"
 ripgrep     = "latest"
 starship    = "latest"
 yazi        = "latest"
-# lang servers
-lua-language-server = "latest"
+
+# neovim dependencies
+go          = "latest"
+node        = "lts"
 
 [bootstrap.packages]
 "flatpak:com.brave.Browser"           = "latest"

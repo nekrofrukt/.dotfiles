@@ -45,3 +45,10 @@ alias oc='opencode'
 alias mail='hey hey'
 
 alias fetch='fastfetch --config ~/.config/fastfetch/mini.jsonc'
+
+morse() {
+  (
+    cd /var/home/nekrofrukt/src/morse &&
+    mise exec -- go run . "$@"
+  )
+}

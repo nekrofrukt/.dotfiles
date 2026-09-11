@@ -1,6 +1,5 @@
 -- import
 require("config.lazy")
---require("config.lsp")
 
 -- options
 vim.opt.tabstop = 4
@@ -13,6 +12,9 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>cd", vim.cmd.Ex)
-
--- lsp
-vim.lsp.enable({"lua_ls"})
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  severity_sort = true,
+})

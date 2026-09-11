@@ -5,8 +5,10 @@ auto_update = true
 
 [tools]
 hey-cli     = "latest"
-# lang servers
-lua-language-server = "latest"
+
+# neovim dependencies
+go          = "latest"
+node        = "lts"
 
 [bootstrap.packages]
 "flatpak:com.discordapp.Discord"      = "latest"
